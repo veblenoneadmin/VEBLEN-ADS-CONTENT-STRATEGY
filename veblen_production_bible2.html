@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #FF8000;
+    --orange-dim: #FF800015;
+    --orange-glow: #FF800044;
+    --orange-mid: #FF800033;
+    --black: #0a0a0a;
+    --off-white: #F5F3EE;
+    --muted: #888;
+    --card-bg: #141414;
+    --card-border: #2a2a2a;
+    --tag-bg: #1e1e1e;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 32px 28px 20px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+  .brand span { color: var(--orange); }
+  .brand-sub { font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
+  .status-pill {
+    background: var(--orange-dim);
+    border: 1px solid var(--orange);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  /* ── Primary nav ── */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 16px 28px 0;
+    border-bottom: 1px solid var(--card-border);
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .tab:hover { color: var(--off-white); }
+  .tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+  /* ── Sub nav for offers ── */
+  .subnav {
+    display: flex;
+    gap: 6px;
+    padding: 12px 0 16px;
+    overflow-x: auto;
+    flex-wrap: wrap;
+  }
+  .subtab {
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'Inter', sans-serif;
+  }
+  .subtab:hover { color: var(--off-white); border-color: #444; }
+  .subtab.active { color: var(--orange); border-color: var(--orange); background: var(--orange-dim); }
+
+  /* ── Panels ── */
+  .panel { display: none; padding: 24px 28px 32px; }
+  .panel.active { display: block; }
+  .subpanel { display: none; }
+  .subpanel.active { display: block; }
+
+  /* ── Section ── */
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-accent { border-left: 3px solid var(--orange); }
+  .card-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-title .num {
+    width: 24px;
+    height: 24px;
+    background: var(--orange);
+    color: var(--black);
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card p { color: #ccc; font-size: 13px; line-height: 1.7; }
+  .card-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .tag {
+    background: var(--tag-bg);
+    border: 1px solid var(--card-border);
+    color: var(--muted);
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .tag.orange { background: var(--orange-dim); border-color: var(--orange); color: var(--orange); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--card-border);
+  }
+  .scene {
+    position: relative;
+    padding: 0 0 20px 52px;
+  }
+  .scene::before {
+    content: attr(data-tc);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 40px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--orange);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+  }
+  .scene-dot {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--orange);
+    border: 2px solid var(--black);
+  }
+  .scene-head {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--off-white);
+    margin-bottom: 4px;
+  }
+  .scene p { font-size: 12.5px; color: #aaa; line-height: 1.6; }
+  .script-line {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: #1a1a1a;
+    border-left: 2px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    font-size: 13px;
+    color: var(--off-white);
+    font-style: italic;
+    line-height: 1.7;
+  }
+  .shot-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: var(--orange-dim);
+    border: 1px solid var(--orange-glow);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+
+  /* ── Cut rows ── */
+  .cut-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 20px;
+  }
+  .cut-tc {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 1px;
+    padding-top: 2px;
+  }
+  .cut-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .cut-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--off-white);
+    margin-bottom: 4px;
+  }
+  .cut-desc { font-size: 12.5px; color: #999; line-height: 1.6; }
+  .cut-vfx {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .vfx-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* ── Ad grid ── */
+  .ad-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .ad-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ad-preview {
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ad-preview.v-realestate { background: linear-gradient(135deg, #0d0d0d 0%, #1a1000 100%); }
+  .ad-preview.v-construction { background: linear-gradient(135deg, #0d0d0d 0%, #1a0d00 100%); }
+  .ad-preview.v-ads { background: linear-gradient(135deg, #0d0d0d 0%, #001a0d 100%); }
+  .ad-preview.v-website { background: linear-gradient(135deg, #0d0d0d 0%, #0d0f1a 100%); }
+  .ad-preview.v-ghl { background: linear-gradient(135deg, #0d0d0d 0%, #1a0d1a 100%); }
+  .ad-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .ad-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--off-white);
+  }
+  .ad-corner {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+  }
+  .ad-details { padding: 14px 16px; }
+  .ad-type { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .ad-copy { font-size: 12.5px; color: #aaa; line-height: 1.6; }
+
+  /* ── Steps row ── */
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .step-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .step-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--card-border);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-head { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+  .step-body { font-size: 12px; color: #999; line-height: 1.6; }
+
+  /* ── Packages ── */
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .pkg {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pkg:hover { border-color: #444; }
+  .pkg.featured { border-color: var(--orange); background: var(--orange-dim); }
+  .pkg-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--orange);
+    margin-bottom: 2px;
+  }
+  .pkg-name { font-size: 11px; color: #aaa; letter-spacing: 0.5px; }
+  .pkg-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--orange);
+    text-transform: uppercase;
+    display: block;
+    margin-top: 6px;
+  }
+
+  /* ── Deliverables grid ── */
+  .del-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .del-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px;
+    border-left: 3px solid var(--orange);
+  }
+  .del-item-head {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: var(--off-white);
+  }
+  .del-item p { font-size: 12px; color: #999; line-height: 1.6; }
+
+  /* ── Offer header banner ── */
+  .offer-banner {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .offer-banner-left { display: flex; flex-direction: column; gap: 4px; }
+  .offer-banner-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .offer-banner-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--off-white);
+  }
+  .offer-banner-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .offer-deliverables {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .offer-del-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: var(--orange-dim);
+    border: 1px solid var(--orange-glow);
+    color: var(--orange);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  /* ── Swatch ── */
+  .swatch-row { display: flex; gap: 12px; margin: 12px 0 20px; flex-wrap: wrap; }
+  .swatch { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .swatch-dot { width: 24px; height: 24px; border-radius: 6px; border: 1px solid #333; flex-shrink: 0; }
+
+  .divider { border: none; border-top: 1px solid var(--card-border); margin: 24px 0; }
+
+  /* ── Summary table ── */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .summary-table th {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--card-border);
+    background: var(--card-bg);
+  }
+  .summary-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1e1e1e;
+    color: #bbb;
+    vertical-align: top;
+  }
+  .summary-table tr:hover td { background: #111; }
+  .summary-table .price-cell {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    color: var(--orange);
+  }
+
+  /* ── Total assets counter ── */
+  .counter-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 20px 0 28px;
+  }
+  .counter-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 100px;
+  }
+  .counter-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .counter-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 480px) {
+    .header { padding: 20px 16px 16px; }
+    .nav { padding: 12px 16px 0; }
+    .panel { padding: 20px 16px 28px; }
+    .brand { font-size: 22px; }
+    .cut-row { grid-template-columns: 60px 1fr; }
+    .offer-banner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="brand">VEBLEN<span>.</span></div>
+    <div class="brand-sub">Content Production Bible — 90 Day Push</div>
+  </div>
+  <div class="status-pill">&#9679; 5 Offers &middot; 25 Assets</div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="tab active" onclick="showPanel('overview')">Overview</button>
+  <button class="tab" onclick="showPanel('realestate')">Real Estate</button>
+  <button class="tab" onclick="showPanel('construction')">Construction</button>
+  <button class="tab" onclick="showPanel('admanagement')">Ad Management</button>
+  <button class="tab" onclick="showPanel('website')">Website</button>
+  <button class="tab" onclick="showPanel('ghl')">GHL Dev</button>
+</div>
+
+<!-- ════════════════════════════════════
+     PANEL: OVERVIEW
+════════════════════════════════════ -->
+<div id="panel-overview" class="panel active">
+  <div class="section-label">Campaign Overview</div>
+  <div class="section-title">5 Offers. 25 Assets. 90 Days.</div>
+  <div class="section-desc">Each offer gets an identical asset kit: 1 long video (90s) + 1 short cut (15s) with VFX &amp; text animation, 1 carousel static ad (4–5 slides), and 1 Canva motion graph ad. Every asset follows the same Veblen visual system — UI-style VFX, kinetic text, orange/black/white brand identity.</div>
+
+  <!-- Total Assets Counter -->
+  <div class="counter-row">
+    <div class="counter-box">
+      <div class="counter-num">5</div>
+      <div class="counter-label">Long Videos</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-num">5</div>
+      <div class="counter-label">Short Cuts</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-num">5</div>
+      <div class="counter-label">Carousel Ads</div>
+    </div>
+    <div class="counter-box">
+      <div class="counter-num">5</div>
+      <div class="counter-label">Motion Ads</div>
+    </div>
+    <div class="counter-box" style="border-color:var(--orange)">
+      <div class="counter-num">25</div>
+      <div class="counter-label">Total Assets</div>
+    </div>
+  </div>
+
+  <!-- 5 Offer Packages -->
+  <div class="section-label">The 5 Offers</div>
+  <div class="packages">
+    <div class="pkg featured">
+      <div class="pkg-price">$849</div>
+      <div class="pkg-name">Real Estate Video</div>
+      <span class="pkg-badge">&#9733; Lead Offer</span>
+    </div>
+    <div class="pkg featured">
+      <div class="pkg-price">$849</div>
+      <div class="pkg-name">Construction Video</div>
+      <span class="pkg-badge">&#9733; Lead Offer</span>
+    </div>
+    <div class="pkg">
+      <div class="pkg-price">$300<span style="font-size:13px">/wk</span></div>
+      <div class="pkg-name">Ad Management</div>
+    </div>
+    <div class="pkg">
+      <div class="pkg-price">$1,495</div>
+      <div class="pkg-name">Website (one-off)</div>
+    </div>
+    <div class="pkg">
+      <div class="pkg-price">$9.90<span style="font-size:13px">/hr</span></div>
+      <div class="pkg-name">GHL Developer</div>
+    </div>
+  </div>
+
+  <!-- Master Asset Table -->
+  <div class="section-label">Master Asset Breakdown</div>
+  <div class="card" style="padding:0; overflow:auto">
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Offer</th>
+          <th>Price</th>
+          <th>Long Video (90s)</th>
+          <th>Short Cut (15s)</th>
+          <th>Carousel (4–5 slides)</th>
+          <th>Motion Ad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:#fff">Real Estate Video</strong></td>
+          <td class="price-cell">$849</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; 4–5 Slides</td>
+          <td>&#10003; Canva</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">Construction Video</strong></td>
+          <td class="price-cell">$849</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; 4–5 Slides</td>
+          <td>&#10003; Canva</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">Ad Management</strong></td>
+          <td class="price-cell">$300/wk</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; 4–5 Slides</td>
+          <td>&#10003; Canva</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">Website</strong></td>
+          <td class="price-cell">$1,495</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; 4–5 Slides</td>
+          <td>&#10003; Canva</td>
+        </tr>
+        <tr>
+          <td><strong style="color:#fff">GHL Developer</strong></td>
+          <td class="price-cell">$9.90/hr</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; VFX + Text Anim</td>
+          <td>&#10003; 4–5 Slides</td>
+          <td>&#10003; Canva</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Brand System</div>
+  <div class="swatch-row">
+    <div class="swatch"><div class="swatch-dot" style="background:#FF8000"></div><span style="color:#aaa">#FF8000 — Orange</span></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#0a0a0a"></div><span style="color:#aaa">#0A0A0A — Black</span></div>
+    <div class="swatch"><div class="swatch-dot" style="background:#FFFFFF"></div><span style="color:#aaa">#FFFFFF — White</span></div>
+    <div class="swatch"><div class="swatch-dot" style="background:linear-gradient(135deg,#FF8000,#FF4000)"></div><span style="color:#aaa">Gradient (optional)</span></div>
+  </div>
+
+  <div class="section-label">Asset Kit Per Offer (Identical Structure)</div>
+  <div class="del-grid">
+    <div class="del-item">
+      <div class="del-item-head">1 &middot; Long Video (90 sec)</div>
+      <p>Full hero video with VFX overlays, UI-style animations, kinetic subtitles, and price reveal at the end. Shot in 9:16 vertical. POV shots + mid-body talking head + B-roll specific to the offer's industry.</p>
+    </div>
+    <div class="del-item">
+      <div class="del-item-head">2 &middot; Short Video (15 sec)</div>
+      <p>Extracted from the long video — hook + best moment + price CTA. Self-contained ad for Reels, TikTok, Shorts, and Meta paid placements. Same VFX and text animation treatment.</p>
+    </div>
+    <div class="del-item">
+      <div class="del-item-head">3 &middot; Carousel Static Ads (4–5 Slides)</div>
+      <p>Slide 1: Hook question. Slides 2–3: Showcase / social proof. Slide 4: Process or comparison. Slide 5: Price + CTA. Black bg, orange accents, Syne Bold headlines.</p>
+    </div>
+    <div class="del-item">
+      <div class="del-item-head">4 &middot; Motion Graph Ad (Canva)</div>
+      <p>15–30 second animated ad built entirely in Canva. Rise/Pop text entrances, staggered animations, beat-synced transitions. Quick to produce, scalable across all platforms.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Platform Deployment</div>
+  <div class="card" style="padding:0; overflow:auto">
+    <table class="summary-table">
+      <thead>
+        <tr><th>Asset</th><th>Meta (FB + IG)</th><th>TikTok</th><th>YouTube</th><th>Google Display</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Long Video (90s)</td><td>Reels, FB Video Ad</td><td>Organic + Spark Ads</td><td>Shorts / Pre-roll</td><td>—</td></tr>
+        <tr><td>Short Cut (15s)</td><td>Reels Ads, Story Ads</td><td>In-Feed Ads</td><td>Bumper Ads</td><td>Responsive Video</td></tr>
+        <tr><td>Carousel Statics</td><td>Carousel Feed Ads</td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>Motion Graph Ad</td><td>Feed + Story Video</td><td>Organic / Ads</td><td>Bumper</td><td>Responsive (GIF/MP4)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     PANEL: REAL ESTATE VIDEO — $849
+════════════════════════════════════ -->
+<div id="panel-realestate" class="panel">
+
+  <div class="offer-banner">
+    <div class="offer-banner-left">
+      <div class="offer-banner-label">Offer 1 — Video Package</div>
+      <div class="offer-banner-title">Real Estate Video</div>
+    </div>
+    <div class="offer-banner-price">$849</div>
+  </div>
+  <div class="offer-deliverables" style="margin-bottom:20px">
+    <span class="offer-del-badge">1 Long Video (90s)</span>
+    <span class="offer-del-badge">1 Short Cut (15s)</span>
+    <span class="offer-del-badge">1 Carousel (4–5 slides)</span>
+    <span class="offer-del-badge">1 Motion Graph Ad</span>
+  </div>
+
+  <!-- Sub-tabs for this offer -->
+  <div class="subnav">
+    <button class="subtab active" onclick="showSub('re','shooting')">Shooting Script</button>
+    <button class="subtab" onclick="showSub('re','actor')">Actor Script</button>
+    <button class="subtab" onclick="showSub('re','edit')">Post-Edit Guide</button>
+    <button class="subtab" onclick="showSub('re','15s')">15s Cut</button>
+    <button class="subtab" onclick="showSub('re','static')">Static Ads</button>
+    <button class="subtab" onclick="showSub('re','canva')">Canva Motion</button>
+  </div>
+
+  <!-- SHOOTING -->
+  <div id="re-shooting" class="subpanel active">
+    <div class="section-label">Shooting Script</div>
+    <div class="section-title">Real Estate Video — 90 Seconds</div>
+    <div class="section-desc">6 scenes. 9:16 vertical. Shoot on location at a property if possible — otherwise use clean studio backdrop with property footage composited in post. Drone shots of the property are a massive plus for B-roll.</div>
+
+    <div class="timeline">
+      <div class="scene" data-tc="0:00">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">POV — Forward-facing hand cam</div>
+        <div class="scene-head">Scene 1 — The Hook (0–5s)</div>
+        <p>Camera POV: your hand reaches forward holding a phone/tablet. On screen (added in post), a virtual "property listing card" UI materialises — showing a luxury property photo, price tag, and animated stats. Floating UI elements orbit the device. Think: Zillow meets Iron Man's HUD. No dialogue — pure visual impact + music drop.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag">No dialogue</span><span class="tag">POV forward</span><span class="tag orange">Property listing UI VFX</span><span class="tag orange">Music hit frame 1</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tc="0:05">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">Mid-body — Reels style (waist up)</div>
+        <div class="scene-head">Scene 2 — The Challenge (5–15s)</div>
+        <p>Step into frame. Stand slightly off-centre (rule of thirds). Direct eye contact with lens. Confident, authoritative energy — you're the expert who knows this industry. Animated text flies in: "Most real estate agents spend THOUSANDS on video that gets zero leads." Kinetic subtitles track your words.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag">Mid-body</span><span class="tag">Rule of thirds</span><span class="tag orange">Kinetic text overlay</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tc="0:15">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">POV — Arm extended, screen forward</div>
+        <div class="scene-head">Scene 3 — Property Showcase Carousel (15–45s)</div>
+        <p>POV hand shot returns. In post, the device becomes a full UI carousel: scrolling through stunning property walkthrough clips, aerial drone shots, twilight exteriors, luxury interiors. Each clip plays 3–4s with a floating label: "Luxury Listing Walkthrough" / "Aerial Drone Showcase" / "Twilight Exterior" / "Interior Staging Reveal." VFX property cards float beside each clip showing "4 Bed · 3 Bath · $1.2M" style data. This is the showreel core — make every property look like $10M.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag orange">30 seconds of property B-roll</span><span class="tag">POV hand</span><span class="tag">Floating property data cards</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tc="0:45">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">Front-facing — Tight shot, shoulders + head</div>
+        <div class="scene-head">Scene 4 — The Process (45–65s)</div>
+        <p>Tight frame, centred. You explain the 3-step process. Each step animates as an icon+text card on the right side: "01 We scout your listing" / "02 We shoot cinematic video" / "03 You get a listing video that sells." Icons are line-art, draw-on stroke effect. Subtitles are kinetic — word-by-word, not full lines.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag">Tight front shot</span><span class="tag orange">Draw-on icons</span><span class="tag orange">3 animated steps</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tc="1:05">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">Mid-body — Mirrored angle from Scene 2</div>
+        <div class="scene-head">Scene 5 — Trust + CTA Setup (65–80s)</div>
+        <p>Mid-body shot, relaxed. Deliver the "who this is for" close — real estate agents, property managers, developers who want their listings to sell faster. Floating stats overlay: "48hr turnaround" / "4K Cinematic" / "Drone included." All stats use the Veblen card style — black bg, orange border, white text.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag">Mid-body</span><span class="tag orange">Floating stat cards</span><span class="tag">Transition to price</span>
+        </div>
+      </div>
+
+      <div class="scene" data-tc="1:20">
+        <div class="scene-dot"></div>
+        <div class="shot-badge">No talent — Full-screen graphic</div>
+        <div class="scene-head">Scene 6 — Price Reveal (80–90s)</div>
+        <p>Cut to black. Full post-production card. The price "$849" slams onto screen with overshoot bounce animation. Sub-text: "Complete Real Estate Video Package." Below: "Walkthrough · Drone · Twilight · Edited · Delivered." Ends with Veblen logo + booking URL. Orange edge glow on the price card.</p>
+        <div class="card-meta" style="margin-top:8px">
+          <span class="tag orange">Full graphic — no filming</span><span class="tag">Price card slam</span><span class="tag">Logo outro</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTOR SCRIPT -->
+  <div id="re-actor" class="subpanel">
+    <div class="section-label">Actor Script</div>
+    <div class="section-title">What You Say — Real Estate Video</div>
+    <div class="section-desc">~200 words. Speak naturally, not like a TV ad. [beat] = pause for editing. CAPS = emphasise.</div>
+
+    <div class="card card-accent" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE HOOK</div>
+      <div class="script-line">
+        "Most real estate agents are still using their PHONE to shoot listing videos. [beat] Or they're paying five grand for a videographer who doesn't understand the market.<br><br>
+        There's a better way. And it costs a LOT less than you think."
+      </div>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PORTFOLIO NARRATION (VO)</div>
+      <div class="script-line">
+        [Quiet, confident voiceover — like narrating a documentary]<br><br>
+        "This is a luxury waterfront listing we shot in a single afternoon. This — a three-bed suburban home that sold in 48 hours after we delivered the video. Here's a twilight exterior that made the listing go viral on Instagram. [beat] Different properties. Different price points. Same CINEMATIC quality."
+      </div>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · 0:45–1:05 · THE PROCESS</div>
+      <div class="script-line">
+        "Here's exactly how it works. [beat]<br><br>
+        ONE — send us the listing details and we'll handle the rest. [beat]<br>
+        TWO — we come to you. Cinematic walkthrough, drone aerials, twilight shots — the full production. [beat]<br>
+        THREE — you get a finished video, optimised for every platform, ready to post. [beat]<br><br>
+        That's it. No back and forth. No revision nightmares. Just a video that makes your listing SELL."
+      </div>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · CTA SETUP</div>
+      <div class="script-line">
+        "If you're a real estate agent, a developer, or a property manager who's SERIOUS about selling faster — [beat] this is your unfair advantage.<br><br>
+        And when you see the price? [beat] You're going to wonder why you didn't do this sooner."
+      </div>
+    </div>
+
+    <div class="card" style="background: var(--orange-dim); border-color: var(--orange);">
+      <div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · 1:20–1:30 · PRICE REVEAL (ON-SCREEN TEXT ONLY)</div>
+      <div style="margin-top:6px;display:grid;gap:6px">
+        <div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Complete Real Estate Video Package <span style="color:var(--orange)">$849</span></div>
+        <div style="font-size:11px;color:#999">Walkthrough · Drone · Twilight · 4K Edit · Platform-Ready Delivery</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="card">
+      <div class="card-title" style="font-size:12px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400">Delivery Notes</div>
+      <p>Speak at 80% of your natural speed — the edit will feel faster. Don't rush [beat] pauses — the editor cuts there. Do 3 takes of every scene. Use the one where you forgot you were filming.</p>
+    </div>
+  </div>
+
+  <!-- POST-EDIT -->
+  <div id="re-edit" class="subpanel">
+    <div class="section-label">Post-Edit Guide</div>
+    <div class="section-title">VFX &amp; Motion Direction — Real Estate</div>
+    <div class="section-desc">Cut-by-cut. Software: Premiere + After Effects. Target: 1080×1920, 30fps, H.264. Property-specific VFX: floating listing cards, drone path overlays, blueprint line-art elements.</div>
+
+    <div class="cut-row">
+      <div class="cut-tc">0:00–0:05</div>
+      <div class="cut-box">
+        <div class="cut-name">Hard Open — Property Listing UI Burst</div>
+        <div class="cut-desc">Start on black. Bass drop — slam cut to POV footage. Animated property listing card materialises from centre: hero property image, animated price counter ($0→$1.2M), bed/bath icons. HUD rings expand from centre. Floating thumbnail cards of other properties scatter like a deck of cards. Orange glow particles drift upward. Blueprint grid lines pulse in the background at 20% opacity.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">Listing card UI</span><span class="vfx-tag">Price counter</span><span class="vfx-tag">HUD rings</span><span class="vfx-tag">Blueprint grid</span><span class="vfx-tag">Particle drift</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cut-row">
+      <div class="cut-tc">0:05–0:15</div>
+      <div class="cut-box">
+        <div class="cut-name">Hook — Kinetic Title + Speaker</div>
+        <div class="cut-desc">Cut to mid-body. Text "MOST AGENTS USE THEIR PHONE" slams in from left — hard translate, no easing. "PHONE" in orange #FF8000. Word-by-word subtitles — each word pops 1 frame ahead of the spoken word. Colour grade: crush blacks, boost warm tones, subtle orange tint on highlights. Thin animated floor plan line-art in the background corners.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">Hard slide-in text</span><span class="vfx-tag">Word-by-word subs</span><span class="vfx-tag">Orange accent words</span><span class="vfx-tag">Floor plan bg</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cut-row">
+      <div class="cut-tc">0:15–0:45</div>
+      <div class="cut-box">
+        <div class="cut-name">Property Carousel — 3D UI Scroll</div>
+        <div class="cut-desc">Over POV hand footage: build a 3D-perspective tablet UI in AE. Inside it, property clips scroll horizontally like a real estate listing carousel. Each clip plays 3–4s. As it enters, a label card slides up: "Luxury Waterfront" with a home icon. Between clips: 2-frame orange flash. Property data cards float beside the carousel — "4 Bed · 3 Bath · Pool · $1.2M" with animated progress bars showing "Engagement: 94%." Add subtle parallax depth layers — foreground particles, mid-ground UI, background footage.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">3D carousel UI</span><span class="vfx-tag">Property data cards</span><span class="vfx-tag">Label slide-ups</span><span class="vfx-tag">Orange flash cuts</span><span class="vfx-tag">Parallax layers</span><span class="vfx-tag">Engagement bars</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cut-row">
+      <div class="cut-tc">0:45–1:05</div>
+      <div class="cut-box">
+        <div class="cut-name">Process — Icon Sequence + Split Comp</div>
+        <div class="cut-desc">Tight front shot left 45% of frame. Right 55%: animated process steps. Each step number appears in orange (Syne 800, large), then a line-art icon draws itself on (camera icon, drone icon, film reel icon), then the label fades in below. Stagger: step 1 at 0:46, step 2 at 0:52, step 3 at 0:58. Subtle scan-line overlay at 15% opacity behind the speaker for tech feel. Grid pattern pulses softly.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">Split comp</span><span class="vfx-tag">Draw-on icons</span><span class="vfx-tag">Step counter</span><span class="vfx-tag">Scan-line overlay</span><span class="vfx-tag">Camera/drone/reel icons</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cut-row">
+      <div class="cut-tc">1:05–1:20</div>
+      <div class="cut-box">
+        <div class="cut-name">CTA — Floating Stat Cards</div>
+        <div class="cut-desc">Mid-body wider shot. AR-style stat cards slide in from edges: "48hr Turnaround" (top left), "4K Cinematic" (top right), "Drone Included" (bottom left). Cards use Veblen style: black bg, 1px orange border, white text, rounded corners. Subtle DOF blur on background. On the final line, all cards snap off-screen with a satisfying whoosh, cutting to black.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">AR stat cards</span><span class="vfx-tag">Edge slide-in</span><span class="vfx-tag">DOF blur</span><span class="vfx-tag">Snap-off exit</span><span class="vfx-tag">Hard cut to black</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cut-row">
+      <div class="cut-tc">1:20–1:30</div>
+      <div class="cut-box">
+        <div class="cut-name">Price Reveal — Full-Screen Card</div>
+        <div class="cut-desc">Pure post, no footage. On black: price card slams in with vertical wipe + overshoot scale (105% → 100%). "$849" in Syne 800, orange, centred. Below: "Complete Real Estate Video Package" in white. Below that: "Walkthrough · Drone · Twilight · 4K Edit" in muted grey. Orange edge glow on the card. 2s hold, then Veblen logo scales up with bounce. Booking URL fades in at bottom. Orange particles radiate from logo.</div>
+        <div class="cut-vfx">
+          <span class="vfx-tag">Vertical wipe</span><span class="vfx-tag">Overshoot scale</span><span class="vfx-tag">Orange glow</span><span class="vfx-tag">Logo bounce</span><span class="vfx-tag">Particle radiate</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 15s CUT -->
+  <div id="re-15s" class="subpanel">
+    <div class="section-label">15-Second Cut</div>
+    <div class="section-title">Short Ad — Real Estate Video $849</div>
+    <div class="section-desc">Extracted from the 90s hero video and re-edited as a standalone ad. Must have its own hook, value prop, and CTA within 15 seconds.</div>
+
+    <div class="cut-row">
+      <div class="cut-tc">0–3s</div>
+      <div class="cut-box">
+        <div class="cut-name">Hook — Property UI Burst</div>
+        <div class="cut-desc">POV hand from Scene 1 with listing card UI. Text overlay: "Real estate video that actually SELLS." Music bass drop.</div>
+        <div class="cut-vfx"><span class="vfx-tag">Listing UI</span><span class="vfx-tag">Bass hit</span><span class="vfx-tag">Text slam</span></div>
+      </div>
+    </div>
+    <div class="cut-row">
+      <div class="cut-tc">3–8s</div>
+      <div class="cut-box">
+        <div class="cut-name">Showcase — Best 2 Property Clips</div>
+        <div class="cut-desc">Two best clips from the carousel section — luxury walkthrough + drone aerial. Each has a floating label card. Fast cuts with orange flash between.</div>
+        <div class="cut-vfx"><span class="vfx-tag">Property clips</span><span class="vfx-tag">Label cards</span><span class="vfx-tag">Orange flash</span></div>
+      </div>
+    </div>
+    <div class="cut-row">
+      <div class="cut-tc">8–12s</div>
+      <div class="cut-box">
+        <div class="cut-name">Value — Actor + Tags</div>
+        <div class="cut-desc">Mid-body shot from Scene 2. Actor delivers condensed line: "Walkthrough. Drone. Twilight. All for eight forty-nine." Tags animate in beside.</div>
+        <div class="cut-vfx"><span class="vfx-tag">Kinetic subs</span><span class="vfx-tag">Floating tags</span></div>
+      </div>
+    </div>
+    <div class="cut-row">
+      <div class="cut-tc">12–15s</div>
+      <div class="cut-box">
+        <div class="cut-name">Price + CTA</div>
+        <div class="cut-desc">Price card: "$849 — Complete Real Estate Video." Veblen logo + "Book now → Link in bio." Orange glow on price.</div>
+        <div class="cut-vfx"><span class="vfx-tag">Price slam</span><span class="vfx-tag">Logo outro</span><span class="vfx-tag">Orange glow</span></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="card">
+      <p style="color:#ccc;line-height:1.9">
+        <strong style="color:var(--orange)">Platform specs:</strong> 9:16 for Reels/TikTok/Shorts (1080×1920). 1:1 or 4:5 for Meta Feed. Export H.264, max 4GB. Always add captions — 85% of viewers watch with sound off.
+      </p>
+    </div>
+  </div>
+
+  <!-- STATIC ADS -->
+  <div id="re-static" class="subpanel">
+    <div class="section-label">Carousel Static Ads</div>
+    <div class="section-title">Real Estate Video — 5 Slides</div>
+    <div class="section-desc">All slides: black bg (#0A0A0A), Syne Bold headlines, #FF8000 accents, white body. Meta carousel ad format.</div>
+
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title"><div class="num">1</div>Slide 1 — The Hook</div>
+      <p>"Is your listing video actually selling properties?" — large Syne headline, white on black. Sub: "Or is it just sitting there with 200 views?" Orange underline accent on "selling."</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title"><div class="num">2</div>Slide 2 — The Problem</div>
+      <p>Split visual: LEFT side shows a shaky phone-shot property video (low quality, dark, amateur). RIGHT side shows a cinematic Veblen walkthrough (bright, steady, professional). Label: "Which one sells the listing?" Dividing line is orange.</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title"><div class="num">3</div>Slide 3 — The Work</div>
+      <p>2×2 grid of best property stills or video thumbnails — aerial shot, twilight exterior, luxury interior, walkthrough POV. Veblen orange-border card in corner: "4K · Drone · Twilight · Delivered in 48hrs."</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title"><div class="num">4</div>Slide 4 — The Process</div>
+      <p>"01 Send us the listing → 02 We shoot cinematic → 03 You get a video that sells." Each number in orange, label in white. Clean minimal layout, generous whitespace.</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title"><div class="num">5</div>Slide 5 — Price + CTA</div>
+      <p>"Complete Real Estate Video Package. $849 flat." CTA button: orange pill shape "Book Your Package →" — link to booking page. Veblen logo bottom right.</p>
+    </div>
+  </div>
+
+  <!-- CANVA -->
+  <div id="re-canva" class="subpanel">
+    <div class="section-label">Canva Motion Graph Ad</div>
+    <div class="section-title">Real Estate — 15–30 Seconds</div>
+    <div class="section-desc">Built entirely in Canva. No filming, no After Effects. Uses Canva's built-in animations and Beat Sync.</div>
+
+    <div class="steps-row">
+      <div class="step-card"><div class="step-num">01</div><div class="step-head">Setup</div><div class="step-body">1080×1920 mobile video. Background: #0A0A0A. Upload 3–4 property stills/clips + Veblen logo PNG.</div></div>
+      <div class="step-card"><div class="step-num">02</div><div class="step-head">Music</div><div class="step-body">Search "cinematic" or "luxury" in Canva audio. Enable Beat Sync. 15–30 seconds.</div></div>
+      <div class="step-card"><div class="step-num">03</div><div class="step-head">Slides</div><div class="step-body">5–6 slides × 3–5s each. Hook → Property clips → Process → Price → Logo.</div></div>
+      <div class="step-card"><div class="step-num">04</div><div class="step-head">Animation</div><div class="step-body">Headlines: "Rise." Body: "Fade." Clips: "Breathe." Transitions: "Match Lines" or "Wipe."</div></div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label">Slide-by-Slide</div>
+
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 1 · 0–4s · Hook</div>
+      <p>Big text: "Your listings deserve CINEMATIC video." Sub: "Here's what $849 gets you." Animation: Pop in. Black bg.</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 2–3 · 4–14s · Property Clips</div>
+      <p>One property clip per slide. Thin orange border frame (4px). Bottom label card: "Luxury Walkthrough" / "Aerial Drone Shot." Breathe animation on clips.</p>
+    </div>
+    <div class="card" style="margin-bottom:8px">
+      <div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 4 · 14–20s · Process</div>
+      <p>"01 Brief → 02 Shoot → 03 Deliver." Staggered Rise animation 0.3s each. Numbers in orange, labels in white.</p>
+    </div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)">
+      <div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 5 · 20–25s · Price Reveal</div>
+      <p style="color:#ddd">"$849 — Complete Real Estate Video." Orange price, white label. Veblen logo fades in. "Book now → Link in bio."</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     PANEL: CONSTRUCTION VIDEO — $849
+════════════════════════════════════ -->
+<div id="panel-construction" class="panel">
+
+  <div class="offer-banner">
+    <div class="offer-banner-left">
+      <div class="offer-banner-label">Offer 2 — Video Package</div>
+      <div class="offer-banner-title">Construction Video</div>
+    </div>
+    <div class="offer-banner-price">$849</div>
+  </div>
+  <div class="offer-deliverables" style="margin-bottom:20px">
+    <span class="offer-del-badge">1 Long Video (90s)</span>
+    <span class="offer-del-badge">1 Short Cut (15s)</span>
+    <span class="offer-del-badge">1 Carousel (4–5 slides)</span>
+    <span class="offer-del-badge">1 Motion Graph Ad</span>
+  </div>
+
+  <div class="subnav">
+    <button class="subtab active" onclick="showSub('con','shooting')">Shooting Script</button>
+    <button class="subtab" onclick="showSub('con','actor')">Actor Script</button>
+    <button class="subtab" onclick="showSub('con','edit')">Post-Edit Guide</button>
+    <button class="subtab" onclick="showSub('con','15s')">15s Cut</button>
+    <button class="subtab" onclick="showSub('con','static')">Static Ads</button>
+    <button class="subtab" onclick="showSub('con','canva')">Canva Motion</button>
+  </div>
+
+  <div id="con-shooting" class="subpanel active">
+    <div class="section-label">Shooting Script</div>
+    <div class="section-title">Construction Video — 90 Seconds</div>
+    <div class="section-desc">6 scenes. Shoot on a job site if possible — hard hats, heavy machinery, raw progress. The contrast of premium video quality applied to a gritty, physical industry is what makes this compelling. If no site access, use studio + overlay construction footage in post.</div>
+
+    <div class="timeline">
+      <div class="scene" data-tc="0:00"><div class="scene-dot"></div><div class="shot-badge">POV — Forward-facing hand cam</div><div class="scene-head">Scene 1 — The Hook (0–5s)</div><p>POV: hand reaches forward. In post, a "project dashboard" UI materialises — showing a construction progress tracker, site photos, timeline bars. Think: a foreman's digital command centre floating in mid-air. Hard music drop. Dust particles (orange-tinted) drift through the UI elements.</p><div class="card-meta" style="margin-top:8px"><span class="tag">No dialogue</span><span class="tag orange">Construction dashboard UI</span><span class="tag orange">Dust particles</span></div></div>
+
+      <div class="scene" data-tc="0:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body — Reels style</div><div class="scene-head">Scene 2 — The Challenge (5–15s)</div><p>Step into frame wearing something that signals construction industry (dark henley, maybe a hard hat in hand — not wearing it, holding it). Direct eye contact. Text flies in: "Your competitors are showing up on social media. Your job sites look BETTER than theirs." Kinetic subtitles track words. Background: subtle blueprint grid animation at 10% opacity.</p><div class="card-meta" style="margin-top:8px"><span class="tag">Mid-body</span><span class="tag orange">Blueprint grid bg</span><span class="tag orange">Kinetic text</span></div></div>
+
+      <div class="scene" data-tc="0:15"><div class="scene-dot"></div><div class="shot-badge">POV — Arm extended</div><div class="scene-head">Scene 3 — Project Showcase Carousel (15–45s)</div><p>POV hand shot. Carousel of construction clips: drone flyover of a job site, time-lapse of a build progressing, heavy machinery in action, finished project reveal. Each clip 3–4s with floating labels: "Commercial Build" / "Drone Site Survey" / "Time-lapse Progress" / "Before & After." VFX: project status cards float beside clips — "Phase 3 · 87% Complete · On Budget" with animated progress bars.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">30 seconds of construction B-roll</span><span class="tag">Progress tracker cards</span><span class="tag">Time-lapse clips</span></div></div>
+
+      <div class="scene" data-tc="0:45"><div class="scene-dot"></div><div class="shot-badge">Front-facing — Tight</div><div class="scene-head">Scene 4 — The Process (45–65s)</div><p>Tight frame. 3-step process: "01 We come to your site" / "02 Drone, walkthrough, time-lapse — we capture everything" / "03 You get professional content that wins contracts." Draw-on icons: crane, drone, film slate. Bold numbers in orange.</p><div class="card-meta" style="margin-top:8px"><span class="tag">Tight front shot</span><span class="tag orange">Crane/drone/slate icons</span><span class="tag orange">3 steps</span></div></div>
+
+      <div class="scene" data-tc="1:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body — Mirrored</div><div class="scene-head">Scene 5 — Trust + CTA (65–80s)</div><p>Mid-body. Target audience callout: builders, contractors, developers, project managers. Floating stat cards: "Drone footage included" / "4K cinematic" / "48hr delivery." Cards slide in from edges, lock in place.</p><div class="card-meta" style="margin-top:8px"><span class="tag">Mid-body</span><span class="tag orange">Stat cards</span><span class="tag">Transition to price</span></div></div>
+
+      <div class="scene" data-tc="1:20"><div class="scene-dot"></div><div class="shot-badge">Full-screen graphic</div><div class="scene-head">Scene 6 — Price Reveal (80–90s)</div><p>Black. "$849" slams in. "Complete Construction Video Package." Below: "Drone · Time-lapse · Walkthrough · 4K Edit." Veblen logo + URL. Orange edge glow.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Price card slam</span><span class="tag">Logo outro</span></div></div>
+    </div>
+  </div>
+
+  <div id="con-actor" class="subpanel">
+    <div class="section-label">Actor Script</div>
+    <div class="section-title">What You Say — Construction Video</div>
+    <div class="section-desc">~200 words. Tone: straight-talking, no fluff. These are tradies and builders — talk like you understand the industry.</div>
+
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE HOOK</div><div class="script-line">"Your competitors are already posting drone footage of their job sites. [beat] They're winning contracts because they LOOK more professional. [beat] Not because they are. Let's fix that."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PORTFOLIO NARRATION (VO)</div><div class="script-line">[Straightforward VO, like talking to a mate on site]<br><br>"This is a commercial build we documented from foundation to fit-out. This — a drone survey for a civil project that saved the client three weeks on planning. Here's a time-lapse that turned a twelve-month build into sixty seconds. [beat] Different projects. Same standard. CINEMATIC quality that wins you the next job."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · 0:45–1:05 · THE PROCESS</div><div class="script-line">"Dead simple. [beat]<br><br>ONE — tell us the project, we handle the logistics. [beat]<br>TWO — we come to site. Drone aerials, walkthrough, time-lapse — the full kit. [beat]<br>THREE — you get a finished video that makes your company look like the biggest builder in town. [beat]<br><br>No mucking around. No delays. Just quality content, delivered fast."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · CTA</div><div class="script-line">"Builders, contractors, developers — if you want to WIN more work and look like the most professional outfit in your market — [beat] here's what we charge. And it's going to surprise you."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · 1:20–1:30 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Complete Construction Video Package <span style="color:var(--orange)">$849</span></div><div style="font-size:11px;color:#999">Drone · Time-lapse · Walkthrough · 4K Edit · 48hr Delivery</div></div></div>
+  </div>
+
+  <div id="con-edit" class="subpanel">
+    <div class="section-label">Post-Edit Guide</div>
+    <div class="section-title">VFX &amp; Motion — Construction</div>
+    <div class="section-desc">Same technical pipeline as Real Estate. Key differences: darker grade, grittier texture, construction-specific VFX (blueprint overlays, progress bars, structural wireframes).</div>
+
+    <div class="cut-row"><div class="cut-tc">0:00–0:05</div><div class="cut-box"><div class="cut-name">Hard Open — Project Dashboard UI</div><div class="cut-desc">Slam cut from black. Construction project dashboard UI builds outward: progress tracker bars (animated 0→87%), site photo grid, timeline Gantt chart. Orange-tinted dust particles. Hard bass + industrial sound hit (metal clang). Blueprint grid lines at 15% bg opacity.</div><div class="cut-vfx"><span class="vfx-tag">Project dashboard</span><span class="vfx-tag">Progress bars</span><span class="vfx-tag">Dust particles</span><span class="vfx-tag">Metal SFX</span><span class="vfx-tag">Blueprint grid</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:05–0:15</div><div class="cut-box"><div class="cut-name">Hook — Kinetic Text + Speaker</div><div class="cut-desc">"COMPETITORS" in white, "DRONE FOOTAGE" in orange. Word-by-word subs. Grade: desaturated with crushed blacks + lifted shadows for industrial feel. Subtle grain overlay (5%). Blueprint corner elements animate in.</div><div class="cut-vfx"><span class="vfx-tag">Hard text</span><span class="vfx-tag">Industrial grade</span><span class="vfx-tag">Film grain 5%</span><span class="vfx-tag">Blueprint corners</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:15–0:45</div><div class="cut-box"><div class="cut-name">Project Carousel — 3D UI + Progress Cards</div><div class="cut-desc">3D carousel of construction clips. Each clip gets a floating project card: "Phase 3 · 87% Complete · On Budget" with animated fill bars. Labels: "Commercial Build" / "Drone Survey" / "Time-lapse." Orange flash between clips. Structural wireframe elements float in parallax foreground.</div><div class="cut-vfx"><span class="vfx-tag">3D carousel</span><span class="vfx-tag">Project status cards</span><span class="vfx-tag">Fill bar animation</span><span class="vfx-tag">Wireframe parallax</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:45–1:05</div><div class="cut-box"><div class="cut-name">Process — Split Comp + Icons</div><div class="cut-desc">Speaker left 45%. Right: crane icon (draw-on), drone icon (draw-on), film slate icon (draw-on). Step numbers in orange. Scan-line overlay. Each icon connects to the next with an animated orange line — like a workflow diagram.</div><div class="cut-vfx"><span class="vfx-tag">Split comp</span><span class="vfx-tag">Construction icons</span><span class="vfx-tag">Workflow lines</span><span class="vfx-tag">Scan-line</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:05–1:20</div><div class="cut-box"><div class="cut-name">CTA — Stat Cards</div><div class="cut-desc">Floating AR-style cards: "Drone Included" / "4K Cinematic" / "48hr Delivery." Orange borders. DOF blur bg. Snap-off exit to black on final word.</div><div class="cut-vfx"><span class="vfx-tag">AR cards</span><span class="vfx-tag">DOF blur</span><span class="vfx-tag">Snap exit</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:20–1:30</div><div class="cut-box"><div class="cut-name">Price Reveal</div><div class="cut-desc">"$849" slams with overshoot. "Complete Construction Video Package." Industrial sound hit on price. Logo bounce. Orange particles. Booking URL fades in.</div><div class="cut-vfx"><span class="vfx-tag">Price slam</span><span class="vfx-tag">Industrial SFX</span><span class="vfx-tag">Logo bounce</span><span class="vfx-tag">Particle radiate</span></div></div></div>
+  </div>
+
+  <div id="con-15s" class="subpanel">
+    <div class="section-label">15-Second Cut</div>
+    <div class="section-title">Short Ad — Construction $849</div>
+    <div class="section-desc">Standalone 15s ad. Hook → Best clips → Price.</div>
+    <div class="cut-row"><div class="cut-tc">0–3s</div><div class="cut-box"><div class="cut-name">Hook — Construction Dashboard UI</div><div class="cut-desc">POV hand + project dashboard UI. Text: "Construction video that wins contracts." Bass drop.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">3–8s</div><div class="cut-box"><div class="cut-name">Best 2 Clips</div><div class="cut-desc">Drone flyover + time-lapse. Floating labels. Orange flash between.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">8–12s</div><div class="cut-box"><div class="cut-name">Actor + Tags</div><div class="cut-desc">"Drone. Time-lapse. Walkthrough. Eight forty-nine." Tags animate in.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">12–15s</div><div class="cut-box"><div class="cut-name">Price + CTA</div><div class="cut-desc">"$849 — Complete Construction Video." Logo + booking link.</div></div></div>
+  </div>
+
+  <div id="con-static" class="subpanel">
+    <div class="section-label">Carousel Static Ads</div>
+    <div class="section-title">Construction Video — 5 Slides</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">1</div>Slide 1 — Hook</div><p>"Your job sites tell a story. Are you showing it?" — Bold headline on black. Sub: "Construction companies that invest in video win more contracts."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">2</div>Slide 2 — Before/After</div><p>Split: amateur phone footage of a site (dark, shaky) vs cinematic Veblen drone shot (crisp, golden hour). Orange dividing line. "Same project. Different video."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">3</div>Slide 3 — Portfolio Grid</div><p>2×2 grid: drone aerial, time-lapse, walkthrough, finished project. Orange-border card: "Drone · Time-lapse · 4K · 48hrs."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">4</div>Slide 4 — Process</div><p>"01 Tell us the project → 02 We come to site → 03 You get content that wins." Numbers orange, labels white.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">5</div>Slide 5 — Price + CTA</div><p>"$849 flat. Complete Construction Video Package." Orange pill CTA: "Book Your Shoot →." Veblen logo.</p></div>
+  </div>
+
+  <div id="con-canva" class="subpanel">
+    <div class="section-label">Canva Motion Ad</div>
+    <div class="section-title">Construction — 15–30 Seconds</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 1 · Hook</div><p>"Your competitors are posting drone footage. Are you?" Pop animation. Black bg.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 2–3 · Clips</div><p>Drone site flyover + time-lapse clip. Orange border frames. "Commercial Build" / "Drone Survey" labels.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 4 · Process</div><p>"01 Brief → 02 Shoot → 03 Deliver." Staggered Rise animation. Orange numbers.</p></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 5 · Price</div><p style="color:#ddd">"$849 — Complete Construction Video." Logo + "Book now →."</p></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     PANEL: AD MANAGEMENT — $300/wk
+════════════════════════════════════ -->
+<div id="panel-admanagement" class="panel">
+  <div class="offer-banner">
+    <div class="offer-banner-left">
+      <div class="offer-banner-label">Offer 3</div>
+      <div class="offer-banner-title">Ad Management</div>
+    </div>
+    <div class="offer-banner-price">$300<span style="font-size:18px">/wk</span></div>
+  </div>
+  <div class="offer-deliverables" style="margin-bottom:20px"><span class="offer-del-badge">1 Long Video (90s)</span><span class="offer-del-badge">1 Short Cut (15s)</span><span class="offer-del-badge">1 Carousel (4–5 slides)</span><span class="offer-del-badge">1 Motion Graph Ad</span></div>
+
+  <div class="subnav">
+    <button class="subtab active" onclick="showSub('ad','shooting')">Shooting Script</button>
+    <button class="subtab" onclick="showSub('ad','actor')">Actor Script</button>
+    <button class="subtab" onclick="showSub('ad','edit')">Post-Edit Guide</button>
+    <button class="subtab" onclick="showSub('ad','15s')">15s Cut</button>
+    <button class="subtab" onclick="showSub('ad','static')">Static Ads</button>
+    <button class="subtab" onclick="showSub('ad','canva')">Canva Motion</button>
+  </div>
+
+  <div id="ad-shooting" class="subpanel active">
+    <div class="section-label">Shooting Script</div><div class="section-title">Ad Management — 90 Seconds</div><div class="section-desc">Studio shoot. No location needed. The VFX does the heavy lifting here — ad dashboard overlays, metric counters, platform logos. This one is about data and results.</div>
+    <div class="timeline">
+      <div class="scene" data-tc="0:00"><div class="scene-dot"></div><div class="shot-badge">POV — Hand cam</div><div class="scene-head">Scene 1 — Hook (0–5s)</div><p>POV: hand reaches forward. In post, a Meta/Google ad dashboard UI materialises. Metrics animate: ROAS spinning up, CTR counters, conversion graphs drawing themselves. Green upward arrows pulse. No dialogue — visual hook only.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Ad dashboard UI</span><span class="tag orange">Metric counters</span><span class="tag">No dialogue</span></div></div>
+      <div class="scene" data-tc="0:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 2 — Challenge (5–15s)</div><p>Mid-body shot. Direct to camera. Text flies in: "You're spending money on ads. But are they actually WORKING?" Kinetic subs. Background: subtle data grid animation.</p><div class="card-meta" style="margin-top:8px"><span class="tag">Mid-body</span><span class="tag orange">Data grid bg</span></div></div>
+      <div class="scene" data-tc="0:15"><div class="scene-dot"></div><div class="shot-badge">POV — Screen forward</div><div class="scene-head">Scene 3 — Results Showcase (15–45s)</div><p>POV carousel of ad campaign results: dashboard screenshots, ROAS charts, audience targeting panels, conversion funnels. Each displayed as a floating card with animated metrics. Labels: "E-commerce Client — 4.2x ROAS" / "Local Service — 312 leads/month" / "SaaS Brand — $12 CPA." Progress bars and graph animations throughout.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">30 seconds of campaign results</span><span class="tag">Animated metrics</span></div></div>
+      <div class="scene" data-tc="0:45"><div class="scene-dot"></div><div class="shot-badge">Front-facing tight</div><div class="scene-head">Scene 4 — Process (45–65s)</div><p>Tight shot. "01 We audit your current ads" / "02 We build and manage campaigns across Meta + Google" / "03 You see real results, every week." Icons: magnifying glass, rocket, chart-up.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Audit/rocket/chart icons</span><span class="tag">3 steps</span></div></div>
+      <div class="scene" data-tc="1:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 5 — CTA (65–80s)</div><p>Mid-body. Floating cards: "Meta + Google" / "Flat rate — no percentage" / "Weekly reporting." Snap-off to black.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Platform cards</span><span class="tag">Snap-off exit</span></div></div>
+      <div class="scene" data-tc="1:20"><div class="scene-dot"></div><div class="shot-badge">Full-screen graphic</div><div class="scene-head">Scene 6 — Price (80–90s)</div><p>"$300/week — Full Ad Management." Sub: "Meta · Google · Reporting · No Hidden Fees." Logo + URL.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Price slam</span><span class="tag">Logo outro</span></div></div>
+    </div>
+  </div>
+
+  <div id="ad-actor" class="subpanel">
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Ad Management</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"Let me guess — you're running ads but have NO idea if they're actually working. [beat] Or worse — you're paying an agency a percentage of your spend just to manage them. That stops today."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">[Confident VO]<br><br>"This e-commerce brand went from burning cash to a four-point-two X return on ad spend. This local service business — three hundred and twelve leads a month. This SaaS company cut their cost per acquisition to twelve dollars. [beat] Different industries. Same approach. RESULTS that you can actually measure."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Here's exactly what happens. [beat]<br><br>ONE — we audit your current ad setup and find where you're bleeding money. [beat]<br>TWO — we build and manage your campaigns across Meta AND Google. Targeting, creatives, everything. [beat]<br>THREE — every week you get a clear report showing exactly what your money did. [beat]<br><br>No confusion. No wasted spend. Just GROWTH."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If you're a business owner who's TIRED of guessing whether your ads work — [beat] we manage everything for a flat three hundred a week. No percentage of spend. No hidden fees. Just results. [beat] Here's the breakdown."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Full Ad Management <span style="color:var(--orange)">$300/week</span></div><div style="font-size:11px;color:#999">Meta · Google · Weekly Reports · No Hidden Fees</div></div></div>
+  </div>
+
+  <div id="ad-edit" class="subpanel">
+    <div class="section-label">Post-Edit Guide</div><div class="section-title">VFX — Ad Management</div><div class="section-desc">Key VFX: ad platform dashboard mockups, animated metric counters, graph line-draws, ROAS/CPA number tickers. Grade: clean, slightly cool, professional.</div>
+    <div class="cut-row"><div class="cut-tc">0:00–0:05</div><div class="cut-box"><div class="cut-name">Dashboard UI Burst</div><div class="cut-desc">Meta+Google dashboard materialises. ROAS counter spins 0→4.2x. CTR bar fills. Conversion graph line draws L→R. Green arrows pulse up. Data grid bg at 10%.</div><div class="cut-vfx"><span class="vfx-tag">Dashboard UI</span><span class="vfx-tag">ROAS counter</span><span class="vfx-tag">Graph line-draw</span><span class="vfx-tag">Green arrows</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:05–0:15</div><div class="cut-box"><div class="cut-name">Hook Text + Speaker</div><div class="cut-desc">"ADS" in white, "WORKING" in orange. Word-by-word kinetic subs. Clean grade — slightly desaturated, sharp. Data grid pattern behind speaker at 10%.</div><div class="cut-vfx"><span class="vfx-tag">Kinetic text</span><span class="vfx-tag">Clean grade</span><span class="vfx-tag">Data grid</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:15–0:45</div><div class="cut-box"><div class="cut-name">Results Carousel</div><div class="cut-desc">Floating campaign result cards. Each card: dark bg, orange top accent, client type label, key metric in large orange text (4.2x ROAS / 312 leads / $12 CPA). Cards fly in, hover, fly out. Between each: data-wipe transition. Background: subtle matrix-style falling numbers at 5% opacity.</div><div class="cut-vfx"><span class="vfx-tag">Result cards</span><span class="vfx-tag">Metric counters</span><span class="vfx-tag">Data-wipe</span><span class="vfx-tag">Matrix bg</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:45–1:05</div><div class="cut-box"><div class="cut-name">Process Icons</div><div class="cut-desc">Split comp. Magnifying glass (draw-on), rocket (draw-on), chart-up (draw-on). Connected by animated workflow lines. Numbers in orange Syne 800.</div><div class="cut-vfx"><span class="vfx-tag">Split comp</span><span class="vfx-tag">Draw-on icons</span><span class="vfx-tag">Workflow lines</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:05–1:20</div><div class="cut-box"><div class="cut-name">CTA Stat Cards</div><div class="cut-desc">"Meta + Google" / "Flat Rate" / "Weekly Reports" cards. Edge slide-in. DOF blur. Snap-off to black.</div><div class="cut-vfx"><span class="vfx-tag">Stat cards</span><span class="vfx-tag">DOF blur</span><span class="vfx-tag">Snap exit</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:20–1:30</div><div class="cut-box"><div class="cut-name">Price Reveal</div><div class="cut-desc">"$300/week" overshoot slam. "Full Ad Management." Metric tickers cascade behind the price. Logo bounce + particles.</div><div class="cut-vfx"><span class="vfx-tag">Price slam</span><span class="vfx-tag">Metric cascade</span><span class="vfx-tag">Logo bounce</span></div></div></div>
+  </div>
+
+  <div id="ad-15s" class="subpanel">
+    <div class="section-label">15-Second Cut</div><div class="section-title">Short Ad — Ad Management $300/wk</div>
+    <div class="cut-row"><div class="cut-tc">0–3s</div><div class="cut-box"><div class="cut-name">Hook</div><div class="cut-desc">Dashboard UI burst + "Your ads. Managed. $300/week." Bass drop.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">3–8s</div><div class="cut-box"><div class="cut-name">Results</div><div class="cut-desc">2 best result cards: "4.2x ROAS" + "312 leads/month." Animated metrics.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">8–12s</div><div class="cut-box"><div class="cut-name">Actor</div><div class="cut-desc">"Meta. Google. Flat rate. Three hundred a week." Tags fly in.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">12–15s</div><div class="cut-box"><div class="cut-name">Price + CTA</div><div class="cut-desc">"$300/week — Full Management." Logo + link.</div></div></div>
+  </div>
+
+  <div id="ad-static" class="subpanel">
+    <div class="section-label">Carousel Static Ads</div><div class="section-title">Ad Management — 5 Slides</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">1</div>Hook</div><p>"Wasting money on ads?" — Bold on black. Sub: "Most businesses have no idea if their ads are profitable."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">2</div>Results</div><p>3 metric cards stacked: "4.2x ROAS" / "312 leads/month" / "$12 CPA." All in orange on dark cards.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">3</div>What's Included</div><p>"Meta Ads ✓ Google Ads ✓ Weekly Reports ✓ Creative Strategy ✓" — checklist format, orange checkmarks.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">4</div>Comparison</div><p>Table: "Agency: 15–20% of spend" vs "Veblen: $300/week flat." Orange highlight on Veblen row.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">5</div>Price + CTA</div><p>"$300/week. Full management. No hidden fees." Orange CTA: "Get Started →." Logo.</p></div>
+  </div>
+
+  <div id="ad-canva" class="subpanel">
+    <div class="section-label">Canva Motion Ad</div><div class="section-title">Ad Management — 15–30s</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 1 · Hook</div><p>"Stop guessing if your ads work." Pop animation. Black bg.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 2–3 · Results</div><p>Metric cards: "4.2x ROAS" / "312 leads." Orange numbers on dark cards. Rise animation.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 4 · What You Get</div><p>"Meta + Google + Reports + Strategy." Staggered Rise. Orange checkmarks.</p></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 5 · Price</div><p style="color:#ddd">"$300/week — Full Management." Logo + "Get started →."</p></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     PANEL: WEBSITE — $1,495
+════════════════════════════════════ -->
+<div id="panel-website" class="panel">
+  <div class="offer-banner">
+    <div class="offer-banner-left"><div class="offer-banner-label">Offer 4</div><div class="offer-banner-title">Website Build</div></div>
+    <div class="offer-banner-price">$1,495</div>
+  </div>
+  <div class="offer-deliverables" style="margin-bottom:20px"><span class="offer-del-badge">1 Long Video (90s)</span><span class="offer-del-badge">1 Short Cut (15s)</span><span class="offer-del-badge">1 Carousel (4–5 slides)</span><span class="offer-del-badge">1 Motion Graph Ad</span></div>
+
+  <div class="subnav">
+    <button class="subtab active" onclick="showSub('web','shooting')">Shooting Script</button>
+    <button class="subtab" onclick="showSub('web','actor')">Actor Script</button>
+    <button class="subtab" onclick="showSub('web','edit')">Post-Edit Guide</button>
+    <button class="subtab" onclick="showSub('web','15s')">15s Cut</button>
+    <button class="subtab" onclick="showSub('web','static')">Static Ads</button>
+    <button class="subtab" onclick="showSub('web','canva')">Canva Motion</button>
+  </div>
+
+  <div id="web-shooting" class="subpanel active">
+    <div class="section-label">Shooting Script</div><div class="section-title">Website Offer — 90 Seconds</div><div class="section-desc">Studio shoot. VFX: browser mockups, website scroll animations, conversion element callouts, before/after reveals.</div>
+    <div class="timeline">
+      <div class="scene" data-tc="0:00"><div class="scene-dot"></div><div class="shot-badge">POV — Hand cam</div><div class="scene-head">Scene 1 — Hook (0–5s)</div><p>POV hand reaches forward. A browser window UI materialises — website loads in with a slick scroll animation. Conversion metrics float beside: "Bounce Rate: 12%" / "Conv Rate: 8.4%." Cursor clicks CTA button and it pulses orange.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Browser mockup UI</span><span class="tag orange">Conversion metrics</span></div></div>
+      <div class="scene" data-tc="0:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 2 — Challenge (5–15s)</div><p>"Your website looks fine. But is it actually CONVERTING?" Kinetic subs. Background: subtle wireframe grid animation.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Wireframe grid bg</span><span class="tag">Kinetic text</span></div></div>
+      <div class="scene" data-tc="0:15"><div class="scene-dot"></div><div class="shot-badge">POV — Screen forward</div><div class="scene-head">Scene 3 — Website Showcase (15–45s)</div><p>Carousel of Veblen website projects. Each site scrolls automatically in a device mockup (laptop + phone side by side). Floating labels: "E-commerce Store" / "Service Business" / "SaaS Landing Page" / "Restaurant." Conversion callouts: arrows pointing to CTAs, social proof sections, hero sections with labels.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">30 seconds of website B-roll</span><span class="tag">Device mockups</span><span class="tag">Conversion callouts</span></div></div>
+      <div class="scene" data-tc="0:45"><div class="scene-dot"></div><div class="shot-badge">Front-facing tight</div><div class="scene-head">Scene 4 — Process (45–65s)</div><p>"01 Tell us your business and goals" / "02 We design + build a conversion-focused site" / "03 You get a website that actually makes money." Icons: target, code bracket, money chart.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Target/code/money icons</span></div></div>
+      <div class="scene" data-tc="1:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 5 — CTA (65–80s)</div><p>Floating cards: "Mobile-first" / "SEO-ready" / "One-time payment." Snap-off to black.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Feature cards</span></div></div>
+      <div class="scene" data-tc="1:20"><div class="scene-dot"></div><div class="shot-badge">Full-screen graphic</div><div class="scene-head">Scene 6 — Price (80–90s)</div><p>"From $1,495 — one-off." Sub: "Custom Design · Mobile-First · SEO · No Monthly Fees." Logo + URL.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Price slam</span><span class="tag">Logo outro</span></div></div>
+    </div>
+  </div>
+
+  <div id="web-actor" class="subpanel">
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Website</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"Here's the truth no web designer wants to tell you. [beat] Most websites look pretty but don't actually DO anything. They don't convert visitors into customers. [beat] We build websites that do BOTH."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">"This e-commerce store increased conversions by forty percent in the first month. This service business went from zero online presence to fully booked in six weeks. This SaaS landing page converts at eight percent — that's FOUR TIMES the industry average. [beat] Different businesses. Same result. Websites that SELL."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Simple. [beat]<br><br>ONE — tell us about your business and what you need the site to do. [beat]<br>TWO — we design and build a site that's optimised to convert, not just look good. [beat]<br>THREE — it's yours. One-time payment. No monthly fees. No hosting traps. [beat]<br><br>A website that actually works for your business. Imagine that."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If your current website isn't generating leads or sales — [beat] it's costing you money every single day. [beat] We fix that. Starting from fourteen ninety-five. One time. And you'll wonder why you waited."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Custom Website Build <span style="color:var(--orange)">From $1,495</span></div><div style="font-size:11px;color:#999">Custom Design · Mobile-First · SEO · One-Time Payment</div></div></div>
+  </div>
+
+  <div id="web-edit" class="subpanel">
+    <div class="section-label">Post-Edit Guide</div><div class="section-title">VFX — Website</div><div class="section-desc">Key VFX: browser/device mockups, website scroll animations, conversion element callouts (CTA arrows, heatmap overlays), wireframe transitions.</div>
+    <div class="cut-row"><div class="cut-tc">0:00–0:05</div><div class="cut-box"><div class="cut-name">Browser UI Burst</div><div class="cut-desc">Browser window materialises. Website loads with smooth scroll. Conversion metrics float: "Bounce: 12%" / "Conv: 8.4%." Cursor clicks CTA — orange pulse ripple. Wireframe grid bg at 10%.</div><div class="cut-vfx"><span class="vfx-tag">Browser mockup</span><span class="vfx-tag">Auto-scroll</span><span class="vfx-tag">Conversion metrics</span><span class="vfx-tag">CTA pulse</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:05–0:15</div><div class="cut-box"><div class="cut-name">Hook Text</div><div class="cut-desc">"CONVERTING" in orange. Wireframe grid behind speaker. Clean, modern grade.</div><div class="cut-vfx"><span class="vfx-tag">Kinetic text</span><span class="vfx-tag">Wireframe bg</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:15–0:45</div><div class="cut-box"><div class="cut-name">Website Showcase Carousel</div><div class="cut-desc">Device mockups: laptop + phone side by side showing each website. Sites auto-scroll. Conversion callout arrows animate in, pointing to: "Hero Section" / "CTA Button" / "Social Proof" / "Lead Form." Floating label cards per project. Orange accent lines connect callouts.</div><div class="cut-vfx"><span class="vfx-tag">Device mockups</span><span class="vfx-tag">Auto-scroll</span><span class="vfx-tag">Callout arrows</span><span class="vfx-tag">Conversion labels</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:45–1:05</div><div class="cut-box"><div class="cut-name">Process Icons</div><div class="cut-desc">Target (draw-on), code brackets (draw-on), money chart (draw-on). Connected workflow lines. Orange step numbers.</div><div class="cut-vfx"><span class="vfx-tag">Draw-on icons</span><span class="vfx-tag">Workflow lines</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:05–1:20</div><div class="cut-box"><div class="cut-name">Feature Cards</div><div class="cut-desc">"Mobile-First" / "SEO-Ready" / "One-Time Payment" AR cards. Snap-off to black.</div><div class="cut-vfx"><span class="vfx-tag">AR cards</span><span class="vfx-tag">Snap exit</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:20–1:30</div><div class="cut-box"><div class="cut-name">Price Reveal</div><div class="cut-desc">"From $1,495" overshoot slam. Browser mockup fades in behind price as a subtle watermark. Logo bounce + particles.</div><div class="cut-vfx"><span class="vfx-tag">Price slam</span><span class="vfx-tag">Browser watermark</span><span class="vfx-tag">Logo bounce</span></div></div></div>
+  </div>
+
+  <div id="web-15s" class="subpanel">
+    <div class="section-label">15-Second Cut</div><div class="section-title">Short Ad — Website $1,495</div>
+    <div class="cut-row"><div class="cut-tc">0–3s</div><div class="cut-box"><div class="cut-name">Hook</div><div class="cut-desc">Browser mockup with website loading. "A website that actually converts." Bass hit.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">3–8s</div><div class="cut-box"><div class="cut-name">Showcase</div><div class="cut-desc">2 best website projects in device mockups. Conversion callouts animate.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">8–12s</div><div class="cut-box"><div class="cut-name">Actor</div><div class="cut-desc">"Custom. Mobile-first. One-time payment. From fourteen ninety-five." Tags fly in.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">12–15s</div><div class="cut-box"><div class="cut-name">Price + CTA</div><div class="cut-desc">"From $1,495 — No Monthly Fees." Logo + link.</div></div></div>
+  </div>
+
+  <div id="web-static" class="subpanel">
+    <div class="section-label">Carousel Static Ads</div><div class="section-title">Website — 5 Slides</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">1</div>Hook</div><p>"Your website is losing you money." — Bold on black. Sub: "Pretty doesn't mean profitable."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">2</div>Portfolio</div><p>Laptop mockup showing a Veblen website. Phone mockup beside it showing mobile version. Clean, premium feel.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">3</div>Features</div><p>"Custom Design ✓ Mobile-First ✓ SEO-Optimised ✓ No Monthly Fees ✓" — checklist, orange checkmarks.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">4</div>Comparison</div><p>Table: "Typical Agency: $5,000–$15,000 + monthly fees" vs "Veblen: From $1,495 one-time." Orange highlight.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">5</div>Price + CTA</div><p>"From $1,495. One-time. Yours forever." CTA: "Start Your Project →." Logo.</p></div>
+  </div>
+
+  <div id="web-canva" class="subpanel">
+    <div class="section-label">Canva Motion Ad</div><div class="section-title">Website — 15–30s</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 1 · Hook</div><p>"Is your website actually making you money?" Pop. Black bg.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 2–3 · Portfolio</div><p>Website screenshots in device mockups. Orange border frames. Rise animation.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 4 · Features</div><p>"Custom · Mobile · SEO · No Fees." Staggered Rise. Orange checkmarks.</p></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 5 · Price</div><p style="color:#ddd">"From $1,495 — One-Time." Logo + "Start your project →."</p></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════
+     PANEL: GHL DEVELOPER — $9.90/hr
+════════════════════════════════════ -->
+<div id="panel-ghl" class="panel">
+  <div class="offer-banner">
+    <div class="offer-banner-left"><div class="offer-banner-label">Offer 5</div><div class="offer-banner-title">GHL Developer</div></div>
+    <div class="offer-banner-price">$9.90<span style="font-size:18px">/hr</span></div>
+  </div>
+  <div class="offer-deliverables" style="margin-bottom:20px"><span class="offer-del-badge">1 Long Video (90s)</span><span class="offer-del-badge">1 Short Cut (15s)</span><span class="offer-del-badge">1 Carousel (4–5 slides)</span><span class="offer-del-badge">1 Motion Graph Ad</span></div>
+
+  <div class="subnav">
+    <button class="subtab active" onclick="showSub('ghl','shooting')">Shooting Script</button>
+    <button class="subtab" onclick="showSub('ghl','actor')">Actor Script</button>
+    <button class="subtab" onclick="showSub('ghl','edit')">Post-Edit Guide</button>
+    <button class="subtab" onclick="showSub('ghl','15s')">15s Cut</button>
+    <button class="subtab" onclick="showSub('ghl','static')">Static Ads</button>
+    <button class="subtab" onclick="showSub('ghl','canva')">Canva Motion</button>
+  </div>
+
+  <div id="ghl-shooting" class="subpanel active">
+    <div class="section-label">Shooting Script</div><div class="section-title">GHL Developer — 90 Seconds</div><div class="section-desc">Studio shoot. VFX-heavy: GoHighLevel workflow mockups, automation node diagrams, funnel builder UI, CRM pipeline animations.</div>
+    <div class="timeline">
+      <div class="scene" data-tc="0:00"><div class="scene-dot"></div><div class="shot-badge">POV — Hand cam</div><div class="scene-head">Scene 1 — Hook (0–5s)</div><p>POV hand reaches forward. GHL workflow diagram materialises — nodes connecting with animated orange lines, automation triggers firing, pipeline stages filling. Think: an automation engineer's dream dashboard floating in space.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">GHL workflow UI</span><span class="tag orange">Node animations</span></div></div>
+      <div class="scene" data-tc="0:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 2 — Challenge (5–15s)</div><p>"You bought GoHighLevel. [beat] Now you need someone to actually BUILD everything inside it." Text flies in. Background: subtle code/circuit pattern at 10%.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Circuit pattern bg</span><span class="tag">Kinetic text</span></div></div>
+      <div class="scene" data-tc="0:15"><div class="scene-dot"></div><div class="shot-badge">POV — Screen forward</div><div class="scene-head">Scene 3 — Workflow Showcase (15–45s)</div><p>Carousel of GHL work: automation workflows, funnel pages, CRM pipelines, email sequences, calendar booking setups. Each displayed as a floating GHL-style UI card. Labels: "Lead Nurture Sequence" / "Sales Pipeline" / "Booking Funnel" / "SMS Automation." Workflow nodes light up sequentially — orange glow as each one activates.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">30 seconds of GHL builds</span><span class="tag">Node activations</span></div></div>
+      <div class="scene" data-tc="0:45"><div class="scene-dot"></div><div class="shot-badge">Front-facing tight</div><div class="scene-head">Scene 4 — Process (45–65s)</div><p>"01 Tell us what you need built" / "02 Our GHL dev builds it — automations, funnels, workflows, everything" / "03 You get a fully working system, tested and ready." Icons: gear, code, rocket.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Gear/code/rocket icons</span></div></div>
+      <div class="scene" data-tc="1:05"><div class="scene-dot"></div><div class="shot-badge">Mid-body</div><div class="scene-head">Scene 5 — CTA (65–80s)</div><p>"Dedicated developer" / "All GHL features" / "Less than a coffee per hour." Cards slide in.</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Feature cards</span></div></div>
+      <div class="scene" data-tc="1:20"><div class="scene-dot"></div><div class="shot-badge">Full-screen graphic</div><div class="scene-head">Scene 6 — Price (80–90s)</div><p>"$9.90/hour" slams in HUGE. "Dedicated GHL Developer." Sub: "Automations · Funnels · Workflows · CRM." The price gets a special coffee cup icon animation beside it (nod to the "less than a coffee" hook).</p><div class="card-meta" style="margin-top:8px"><span class="tag orange">Price slam</span><span class="tag">Coffee icon Easter egg</span></div></div>
+    </div>
+  </div>
+
+  <div id="ghl-actor" class="subpanel">
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — GHL Developer</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"So you bought GoHighLevel. [beat] Great. Now who's going to build the automations, the funnels, the workflows? [beat] Because doing it yourself is taking FOREVER. And hiring a developer? Most charge fifty to a hundred dollars an hour. [beat] We charge nine ninety."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">"This is a full lead nurture sequence — twelve emails, five SMS triggers, automated follow-ups. This sales pipeline tracks every deal from first touch to close. Here's a booking funnel that fills a calendar with thirty qualified calls a week. [beat] All built in GoHighLevel. All by our devs."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Here's how simple it is. [beat]<br><br>ONE — tell us what you need built inside GHL. [beat]<br>TWO — our dedicated developer builds it. Automations, funnels, workflows, CRM setup — whatever you need. [beat]<br>THREE — you get a fully working system, tested and ready to go. [beat]<br><br>No learning curve. No YouTube tutorials. Just a pro building exactly what you need."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If you're running GoHighLevel and you're STILL trying to figure it all out yourself — [beat] stop. Get a dedicated dev for nine dollars and ninety cents an hour. [beat] That's less than a cup of coffee. [beat] And the ROI? Infinite."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Dedicated GHL Developer <span style="color:var(--orange)">$9.90/hr</span></div><div style="font-size:11px;color:#999">Automations · Funnels · Workflows · CRM · Pipeline</div></div></div>
+  </div>
+
+  <div id="ghl-edit" class="subpanel">
+    <div class="section-label">Post-Edit Guide</div><div class="section-title">VFX — GHL Developer</div><div class="section-desc">Key VFX: GHL-style workflow node diagrams, automation trigger animations, funnel builder UI, CRM pipeline stage fills. Grade: techy, clean, slightly cool with orange accents.</div>
+    <div class="cut-row"><div class="cut-tc">0:00–0:05</div><div class="cut-box"><div class="cut-name">Workflow Node Burst</div><div class="cut-desc">GHL workflow diagram builds outward from centre. Nodes appear one by one, connected by animated orange lines that "flow" like electricity. Trigger icons pulse. Pipeline stages fill left to right. Circuit pattern bg at 10%.</div><div class="cut-vfx"><span class="vfx-tag">Node diagram</span><span class="vfx-tag">Flowing lines</span><span class="vfx-tag">Trigger pulses</span><span class="vfx-tag">Pipeline fill</span><span class="vfx-tag">Circuit bg</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:05–0:15</div><div class="cut-box"><div class="cut-name">Hook Text</div><div class="cut-desc">"GoHighLevel" in white, "NINE NINETY" in orange. Word-by-word subs. Circuit/code bg.</div><div class="cut-vfx"><span class="vfx-tag">Kinetic text</span><span class="vfx-tag">Code bg</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:15–0:45</div><div class="cut-box"><div class="cut-name">GHL Showcase Carousel</div><div class="cut-desc">Floating GHL-style UI cards showing: email sequence builder, SMS automation, pipeline view, funnel pages, calendar setup. Each card hovers and rotates slightly in 3D. Workflow nodes beside each light up orange as they "activate." Labels slide up. Between cards: data-wipe transition with code characters.</div><div class="cut-vfx"><span class="vfx-tag">GHL UI cards</span><span class="vfx-tag">3D hover</span><span class="vfx-tag">Node activations</span><span class="vfx-tag">Code wipe</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">0:45–1:05</div><div class="cut-box"><div class="cut-name">Process Icons</div><div class="cut-desc">Gear (draw-on), code brackets (draw-on), rocket (draw-on). Connected by circuit-style lines. Orange numbers.</div><div class="cut-vfx"><span class="vfx-tag">Draw-on icons</span><span class="vfx-tag">Circuit lines</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:05–1:20</div><div class="cut-box"><div class="cut-name">Feature Cards</div><div class="cut-desc">"Dedicated Dev" / "All GHL Features" / "< Coffee" AR cards. Edge slide-in. Snap-off.</div><div class="cut-vfx"><span class="vfx-tag">AR cards</span><span class="vfx-tag">Snap exit</span></div></div></div>
+    <div class="cut-row"><div class="cut-tc">1:20–1:30</div><div class="cut-box"><div class="cut-name">Price Reveal</div><div class="cut-desc">"$9.90/hr" MASSIVE overshoot slam. Coffee cup icon animates in beside the price (steaming animation). Workflow nodes radiate from the price like a starburst. Logo bounce.</div><div class="cut-vfx"><span class="vfx-tag">Giant price</span><span class="vfx-tag">Coffee icon</span><span class="vfx-tag">Node starburst</span><span class="vfx-tag">Logo bounce</span></div></div></div>
+  </div>
+
+  <div id="ghl-15s" class="subpanel">
+    <div class="section-label">15-Second Cut</div><div class="section-title">Short Ad — GHL Dev $9.90/hr</div>
+    <div class="cut-row"><div class="cut-tc">0–3s</div><div class="cut-box"><div class="cut-name">Hook</div><div class="cut-desc">Workflow node burst + "A GHL dev for less than a coffee." Bass drop.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">3–8s</div><div class="cut-box"><div class="cut-name">Showcase</div><div class="cut-desc">2 best GHL builds — automation workflow + funnel page. Node activations.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">8–12s</div><div class="cut-box"><div class="cut-name">Actor</div><div class="cut-desc">"Automations. Funnels. Workflows. Nine ninety an hour." Tags fly in.</div></div></div>
+    <div class="cut-row"><div class="cut-tc">12–15s</div><div class="cut-box"><div class="cut-name">Price + CTA</div><div class="cut-desc">"$9.90/hr — Dedicated GHL Developer." Coffee icon + Logo + link.</div></div></div>
+  </div>
+
+  <div id="ghl-static" class="subpanel">
+    <div class="section-label">Carousel Static Ads</div><div class="section-title">GHL Developer — 5 Slides</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">1</div>Hook</div><p>"Still building your own GHL funnels?" — Bold on black. Sub: "There's a faster way. And it costs less than coffee."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">2</div>What We Build</div><p>GHL dashboard screenshot with workflow visible. Overlay: "Automations · Funnels · CRM · Pipelines · Email · SMS."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">3</div>The Comparison</div><p>Visual: coffee cup = $6. GHL dev per hour = $9.90. "Less than TWO coffees for an hour of expert development." Orange accent on the price.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">4</div>Process</div><p>"01 Tell us what to build → 02 Dev builds it → 03 You get a working system." Clean numbered format.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title"><div class="num">5</div>Price + CTA</div><p>"$9.90/hour. Dedicated GHL Developer." CTA: "Hire Now →." Logo.</p></div>
+  </div>
+
+  <div id="ghl-canva" class="subpanel">
+    <div class="section-label">Canva Motion Ad</div><div class="section-title">GHL Developer — 15–30s</div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 1 · Hook</div><p>"Need a GHL developer?" Pop animation. Black bg.</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 2 · Price Shock</div><p>"$9.90/hour" — oversized orange text, pop entrance. Sub: "Less than a coffee."</p></div>
+    <div class="card" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 3 · What They Build</div><p>"Automations · Funnels · CRM · Workflows." Staggered Rise. Orange icons.</p></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange)">SLIDE 4 · CTA</div><p style="color:#ddd">"$9.90/hr — Hire Your Dev." Logo + "Get started →."</p></div>
+  </div>
+</div>
+
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav .tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showSub(prefix, sub) {
+  // Find parent panel
+  const btn = event.currentTarget;
+  const panel = btn.closest('.panel');
+
+  // Hide all subpanels and deactivate subtabs within this panel
+  panel.querySelectorAll('.subpanel').forEach(s => s.classList.remove('active'));
+  panel.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
+
+  // Activate target
+  document.getElementById(prefix + '-' + sub).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
