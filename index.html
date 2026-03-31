@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -28,6 +30,10 @@
     font-size: 14px;
     line-height: 1.6;
     padding: 0;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-text-size-adjust: 100%;
   }
 
   /* ── Header ── */
@@ -561,13 +567,205 @@
     margin-top: 4px;
   }
 
+  /* ── Mobile-first: prevent horizontal overflow ── */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
+  /* ── Smooth scrolling for nav ── */
+  .nav, .subnav { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .nav::-webkit-scrollbar, .subnav::-webkit-scrollbar { display: none; }
+
+  /* ── Touch targets ── */
+  @media (pointer: coarse) {
+    .tab { min-height: 44px; display: flex; align-items: center; }
+    .subtab { min-height: 40px; display: flex; align-items: center; }
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 768px) {
+    .header { padding: 24px 20px 16px; }
+    .nav { padding: 12px 20px 0; }
+    .panel { padding: 20px 20px 28px; }
+    .section-title { font-size: 19px; }
+    .offer-banner { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .offer-banner-price { font-size: 24px; }
+    .packages { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+    .del-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: repeat(2, 1fr); }
+    .ad-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .counter-row { gap: 10px; }
+    .counter-box { padding: 12px 14px; min-width: 80px; }
+    .summary-table { font-size: 11px; }
+    .summary-table th, .summary-table td { padding: 8px 8px; }
+  }
+
+  /* ── Mobile — iPhone 12 Pro (390px) optimised ── */
   @media (max-width: 480px) {
-    .header { padding: 20px 16px 16px; }
-    .nav { padding: 12px 16px 0; }
-    .panel { padding: 20px 16px 28px; }
-    .brand { font-size: 22px; }
-    .cut-row { grid-template-columns: 60px 1fr; }
-    .offer-banner { flex-direction: column; align-items: flex-start; }
+    body { font-size: 14px; }
+
+    /* Header */
+    .header { padding: 18px 16px 14px; gap: 8px; }
+    .brand { font-size: 24px; }
+    .brand-sub { font-size: 10px; letter-spacing: 1.5px; }
+    .status-pill { font-size: 10px; padding: 4px 10px; }
+
+    /* Nav — horizontal scroll, snap to each tab */
+    .nav {
+      padding: 10px 16px 0;
+      gap: 2px;
+      flex-wrap: nowrap;
+      scroll-snap-type: x proximity;
+    }
+    .tab {
+      padding: 12px 14px;
+      font-size: 11px;
+      scroll-snap-align: start;
+    }
+
+    /* Sub nav — horizontal scroll */
+    .subnav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 10px 0 14px;
+      gap: 6px;
+      scroll-snap-type: x proximity;
+    }
+    .subtab {
+      padding: 9px 14px;
+      font-size: 11px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+
+    /* Panels */
+    .panel { padding: 18px 16px 28px; }
+
+    /* Section headings */
+    .section-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 6px; }
+    .section-title { font-size: 18px; margin-bottom: 5px; }
+    .section-desc { font-size: 12.5px; margin-bottom: 18px; line-height: 1.7; }
+
+    /* Cards */
+    .card { padding: 16px; margin-bottom: 12px; border-radius: 10px; }
+    .card p { font-size: 12.5px; line-height: 1.7; }
+    .card-title { font-size: 13px; gap: 8px; }
+    .card-title .num { width: 22px; height: 22px; font-size: 10px; }
+
+    /* Script lines — these are the main content people read */
+    .script-line { padding: 12px 14px; font-size: 13.5px; line-height: 1.75; }
+
+    /* Tags */
+    .tag { font-size: 10px; padding: 3px 8px; }
+    .card-meta { gap: 6px; margin-top: 8px; }
+
+    /* Timeline */
+    .timeline::before { left: 16px; }
+    .scene { padding: 0 0 18px 46px; }
+    .scene::before { width: 34px; font-size: 9px; }
+    .scene-dot { left: 12px; top: 6px; width: 8px; height: 8px; }
+    .scene-head { font-size: 13px; margin-bottom: 5px; }
+    .scene p { font-size: 12px; line-height: 1.65; }
+    .shot-badge { font-size: 9px; padding: 3px 8px; letter-spacing: 0.5px; margin-bottom: 4px; }
+
+    /* Cut rows — stack on mobile */
+    .cut-row { grid-template-columns: 1fr; gap: 4px; margin-bottom: 16px; }
+    .cut-tc { padding-top: 0; font-size: 10px; }
+    .cut-box { padding: 14px; }
+    .cut-name { font-size: 13px; }
+    .cut-desc { font-size: 12px; line-height: 1.65; }
+    .vfx-tag { font-size: 9px; padding: 3px 7px; }
+
+    /* Offer banner */
+    .offer-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 16px;
+      margin-bottom: 16px;
+      gap: 6px;
+      border-radius: 10px;
+    }
+    .offer-banner-label { font-size: 10px; }
+    .offer-banner-title { font-size: 17px; }
+    .offer-banner-price { font-size: 26px; }
+
+    /* Offer deliverables — 2×2 grid */
+    .offer-deliverables {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .offer-del-badge { font-size: 9px; padding: 5px 8px; text-align: center; }
+
+    /* Packages — 2 columns, good at 390px (~180px each) */
+    .packages { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .pkg { padding: 14px 12px; border-radius: 10px; }
+    .pkg-price { font-size: 18px; }
+    .pkg-name { font-size: 10.5px; }
+    .pkg-badge { font-size: 8px; }
+
+    /* Counter row — 3 columns top, 2 columns bottom */
+    .counter-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 16px 0 22px;
+    }
+    .counter-box { padding: 12px 8px; min-width: unset; border-radius: 8px; }
+    .counter-box:last-child {
+      grid-column: 1 / -1;
+    }
+    .counter-num { font-size: 24px; }
+    .counter-label { font-size: 9px; letter-spacing: 0.5px; }
+
+    /* Deliverables grid — stack */
+    .del-grid { grid-template-columns: 1fr; gap: 10px; }
+    .del-item { padding: 14px; }
+    .del-item-head { font-size: 13px; }
+    .del-item p { font-size: 11.5px; }
+
+    /* Steps row */
+    .steps-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .step-card { padding: 14px; }
+    .step-num { font-size: 28px; }
+    .step-head { font-size: 12px; }
+    .step-body { font-size: 11px; }
+
+    /* Ad grid — stack */
+    .ad-grid { grid-template-columns: 1fr; }
+    .ad-preview { height: 140px; }
+    .ad-price { font-size: 30px; }
+
+    /* Summary table — horizontally scrollable */
+    .card:has(.summary-table) { padding: 0; }
+    .summary-table { font-size: 11px; white-space: nowrap; }
+    .summary-table th { font-size: 9px; padding: 10px 10px; letter-spacing: 1px; }
+    .summary-table td { padding: 10px 10px; font-size: 11px; }
+
+    /* Swatches — 2×2 grid */
+    .swatch-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0 18px; }
+    .swatch { font-size: 11px; gap: 6px; }
+    .swatch-dot { width: 20px; height: 20px; }
+
+    /* Divider */
+    .divider { margin: 20px 0; }
+
+    /* Scroll containers */
+    .card[style*="overflow"] { -webkit-overflow-scrolling: touch; }
+  }
+
+  /* ── Small phones (iPhone SE etc) ── */
+  @media (max-width: 360px) {
+    .header { padding: 14px 12px 12px; }
+    .nav { padding: 8px 12px 0; }
+    .panel { padding: 14px 12px 20px; }
+    .tab { padding: 10px 10px; font-size: 10px; }
+    .brand { font-size: 20px; }
+    .section-title { font-size: 16px; }
+    .offer-banner-price { font-size: 22px; }
+    .counter-row { grid-template-columns: repeat(2, 1fr); }
+    .counter-box:last-child { grid-column: 1 / -1; }
+    .counter-num { font-size: 20px; }
+    .steps-row { grid-template-columns: 1fr; }
+    .script-line { font-size: 12.5px; }
   }
 </style>
 </head>
@@ -861,40 +1059,42 @@
   <div id="re-actor" class="subpanel">
     <div class="section-label">Actor Script</div>
     <div class="section-title">What You Say — Real Estate Video</div>
-    <div class="section-desc">~200 words. Speak naturally, not like a TV ad. [beat] = pause for editing. CAPS = emphasise.</div>
+    <div class="section-desc">~160 words (target: ~200 at 130 wpm for 90s). Speak naturally, not like a TV ad. [beat] = pause for editing. CAPS = emphasise.</div>
 
     <div class="card card-accent" style="margin-bottom:8px">
-      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE HOOK</div>
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE CHALLENGE</div>
       <div class="script-line">
-        "Most real estate agents are still using their PHONE to shoot listing videos. [beat] Or they're paying five grand for a videographer who doesn't understand the market.<br><br>
-        There's a better way. And it costs a LOT less than you think."
+        "Eight hundred and forty-nine dollars. That's what a cinematic listing video costs on the Gold Coast right now."<br><br>
+        "Not five grand. Not three. Eight forty-nine. And it looks like THIS."
       </div>
     </div>
 
     <div class="card card-accent" style="margin-bottom:8px">
-      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PORTFOLIO NARRATION (VO)</div>
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PORTFOLIO SHOWCASE</div>
       <div class="script-line">
-        [Quiet, confident voiceover — like narrating a documentary]<br><br>
-        "This is a luxury waterfront listing we shot in a single afternoon. This — a three-bed suburban home that sold in 48 hours after we delivered the video. Here's a twilight exterior that made the listing go viral on Instagram. [beat] Different properties. Different price points. Same CINEMATIC quality."
+        "Waterfront penthouse. Shot in one afternoon."<br><br>
+        "Three-bed in Burleigh — the agent had offers before the open home."<br><br>
+        "Twilight exterior in Broadbeach that pulled [X] views on Instagram in the first week."<br><br>
+        "Different properties. Different price points. Same cinematic standard."
       </div>
     </div>
 
     <div class="card card-accent" style="margin-bottom:8px">
       <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · 0:45–1:05 · THE PROCESS</div>
       <div class="script-line">
-        "Here's exactly how it works. [beat]<br><br>
-        ONE — send us the listing details and we'll handle the rest. [beat]<br>
-        TWO — we come to you. Cinematic walkthrough, drone aerials, twilight shots — the full production. [beat]<br>
-        THREE — you get a finished video, optimised for every platform, ready to post. [beat]<br><br>
-        That's it. No back and forth. No revision nightmares. Just a video that makes your listing SELL."
+        "Here's how it works."<br><br>
+        "ONE — send us the listing address. That's it. We handle the rest."<br>
+        "TWO — we come to you. Cinematic walkthrough, drone aerials, twilight shots. Full production."<br>
+        "THREE — your finished video lands in your inbox. Ready to post everywhere. No back and forth. No revision drama."
       </div>
     </div>
 
     <div class="card card-accent" style="margin-bottom:8px">
-      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · CTA SETUP</div>
+      <div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · TRUST + CTA</div>
       <div class="script-line">
-        "If you're a real estate agent, a developer, or a property manager who's SERIOUS about selling faster — [beat] this is your unfair advantage.<br><br>
-        And when you see the price? [beat] You're going to wonder why you didn't do this sooner."
+        "If you're listing properties on the Gold Coast and your video content isn't matching the quality of the homes you're selling —"<br><br>
+        "that's costing you. Every single week."<br><br>
+        "And at this price? There's no reason not to try it."
       </div>
     </div>
 
@@ -902,7 +1102,8 @@
       <div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · 1:20–1:30 · PRICE REVEAL (ON-SCREEN TEXT ONLY)</div>
       <div style="margin-top:6px;display:grid;gap:6px">
         <div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Complete Real Estate Video Package <span style="color:var(--orange)">$849</span></div>
-        <div style="font-size:11px;color:#999">Walkthrough · Drone · Twilight · 4K Edit · Platform-Ready Delivery</div>
+        <div style="font-size:11px;color:#999">Walkthrough · Drone · Twilight · 4K Edit · 48hr Delivery</div>
+        <div style="font-size:11px;color:var(--orange)">Book Your Package →</div>
       </div>
     </div>
 
@@ -1148,13 +1349,13 @@
   <div id="con-actor" class="subpanel">
     <div class="section-label">Actor Script</div>
     <div class="section-title">What You Say — Construction Video</div>
-    <div class="section-desc">~200 words. Tone: straight-talking, no fluff. These are tradies and builders — talk like you understand the industry.</div>
+    <div class="section-desc">~173 words (target: ~200 at 130 wpm for 90s). Tone: straight-talking, no fluff. These are tradies and builders — talk like you understand the industry.</div>
 
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE HOOK</div><div class="script-line">"Your competitors are already posting drone footage of their job sites. [beat] They're winning contracts because they LOOK more professional. [beat] Not because they are. Let's fix that."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PORTFOLIO NARRATION (VO)</div><div class="script-line">[Straightforward VO, like talking to a mate on site]<br><br>"This is a commercial build we documented from foundation to fit-out. This — a drone survey for a civil project that saved the client three weeks on planning. Here's a time-lapse that turned a twelve-month build into sixty seconds. [beat] Different projects. Same standard. CINEMATIC quality that wins you the next job."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · 0:45–1:05 · THE PROCESS</div><div class="script-line">"Dead simple. [beat]<br><br>ONE — tell us the project, we handle the logistics. [beat]<br>TWO — we come to site. Drone aerials, walkthrough, time-lapse — the full kit. [beat]<br>THREE — you get a finished video that makes your company look like the biggest builder in town. [beat]<br><br>No mucking around. No delays. Just quality content, delivered fast."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · CTA</div><div class="script-line">"Builders, contractors, developers — if you want to WIN more work and look like the most professional outfit in your market — [beat] here's what we charge. And it's going to surprise you."</div></div>
-    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · 1:20–1:30 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Complete Construction Video Package <span style="color:var(--orange)">$849</span></div><div style="font-size:11px;color:#999">Drone · Time-lapse · Walkthrough · 4K Edit · 48hr Delivery</div></div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · 0:05–0:15 · THE CHALLENGE</div><div class="script-line">"Every job you finish without a video is a marketing asset you threw away."<br><br>"Your best projects. Gone. No one sees them except the client who paid for them."<br><br>"We fix that for eight forty-nine."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · 0:15–0:45 · PROJECT SHOWCASE</div><div class="script-line">"This is a commercial fit-out we documented from slab to sign-off."<br><br>"This — a drone survey for a civil contractor that saved them [X] on planning approvals."<br><br>"And this time-lapse turned a twelve-month build into sixty seconds of content that's still generating enquiries."<br><br>"Different trades. Different scale. Same cinematic quality that wins the next contract."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · 0:45–1:05 · THE PROCESS</div><div class="script-line">"Dead simple."<br><br>"ONE — tell us the project and when we can get on site."<br>"TWO — we show up. Drone aerials, walkthrough, time-lapse — the full kit."<br>"THREE — you get a finished video that makes your company look like the biggest outfit in town. No mucking around. No delays."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · 1:05–1:20 · TRUST + CTA</div><div class="script-line">"Builders, contractors, developers — if your competitors are posting drone footage and you're not,"<br><br>"you're handing them work."<br><br>"Eight hundred and forty-nine dollars. That's it. And you'll use this content for years."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · 1:20–1:30 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Complete Construction Video Package <span style="color:var(--orange)">$849</span></div><div style="font-size:11px;color:#999">Drone · Time-lapse · Walkthrough · 4K Edit · 48hr Delivery</div><div style="font-size:11px;color:var(--orange)">Book Your Shoot →</div></div></div>
   </div>
 
   <div id="con-edit" class="subpanel">
@@ -1236,12 +1437,12 @@
   </div>
 
   <div id="ad-actor" class="subpanel">
-    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Ad Management</div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"Let me guess — you're running ads but have NO idea if they're actually working. [beat] Or worse — you're paying an agency a percentage of your spend just to manage them. That stops today."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">[Confident VO]<br><br>"This e-commerce brand went from burning cash to a four-point-two X return on ad spend. This local service business — three hundred and twelve leads a month. This SaaS company cut their cost per acquisition to twelve dollars. [beat] Different industries. Same approach. RESULTS that you can actually measure."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Here's exactly what happens. [beat]<br><br>ONE — we audit your current ad setup and find where you're bleeding money. [beat]<br>TWO — we build and manage your campaigns across Meta AND Google. Targeting, creatives, everything. [beat]<br>THREE — every week you get a clear report showing exactly what your money did. [beat]<br><br>No confusion. No wasted spend. Just GROWTH."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If you're a business owner who's TIRED of guessing whether your ads work — [beat] we manage everything for a flat three hundred a week. No percentage of spend. No hidden fees. Just results. [beat] Here's the breakdown."</div></div>
-    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Full Ad Management <span style="color:var(--orange)">$300/week</span></div><div style="font-size:11px;color:#999">Meta · Google · Weekly Reports · No Hidden Fees</div></div></div>
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Ad Management</div><div class="section-desc">~187 words (target: ~200 at 130 wpm for 90s).</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · THE CHALLENGE</div><div class="script-line">"Three hundred dollars a week. That's what proper ad management costs."<br><br>"Not a percentage of your spend. Not a retainer you can't track. Three hundred flat. And you'll know exactly where every dollar went."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · RESULTS SHOWCASE</div><div class="script-line">"This Gold Coast trades business went from zero online leads to [X] a month in the first ninety days."<br><br>"This e-commerce brand hit a [X] return on ad spend within eight weeks."<br><br>"And this service business cut their cost per lead from [X] down to [X] using the same playbook."<br><br>"Different industries. Same approach. Results you can actually measure."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · THE PROCESS</div><div class="script-line">"Here's exactly what happens."<br><br>"ONE — we audit your current ad setup. Find where you're bleeding money."<br>"TWO — we build and manage your campaigns across Meta and Google. Targeting, creatives, everything."<br>"THREE — every week you get a clear report. What we spent, what it generated, what we're changing next. No confusion. No wasted budget."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · TRUST + CTA</div><div class="script-line">"If you're running ads and you have no idea whether they're actually profitable —"<br><br>"or you're paying an agency a percentage of your spend just to manage them —"<br><br>"that stops today. Flat rate. Full transparency. Actual results."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Full Ad Management <span style="color:var(--orange)">$300/week</span></div><div style="font-size:11px;color:#999">Meta · Google · Weekly Reports · No Hidden Fees</div><div style="font-size:11px;color:var(--orange)">Get Started →</div></div></div>
   </div>
 
   <div id="ad-edit" class="subpanel">
@@ -1313,12 +1514,12 @@
   </div>
 
   <div id="web-actor" class="subpanel">
-    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Website</div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"Here's the truth no web designer wants to tell you. [beat] Most websites look pretty but don't actually DO anything. They don't convert visitors into customers. [beat] We build websites that do BOTH."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">"This e-commerce store increased conversions by forty percent in the first month. This service business went from zero online presence to fully booked in six weeks. This SaaS landing page converts at eight percent — that's FOUR TIMES the industry average. [beat] Different businesses. Same result. Websites that SELL."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Simple. [beat]<br><br>ONE — tell us about your business and what you need the site to do. [beat]<br>TWO — we design and build a site that's optimised to convert, not just look good. [beat]<br>THREE — it's yours. One-time payment. No monthly fees. No hosting traps. [beat]<br><br>A website that actually works for your business. Imagine that."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If your current website isn't generating leads or sales — [beat] it's costing you money every single day. [beat] We fix that. Starting from fourteen ninety-five. One time. And you'll wonder why you waited."</div></div>
-    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Custom Website Build <span style="color:var(--orange)">From $1,495</span></div><div style="font-size:11px;color:#999">Custom Design · Mobile-First · SEO · One-Time Payment</div></div></div>
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — Website</div><div class="section-desc">~179 words (target: ~200 at 130 wpm for 90s).</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · THE CHALLENGE</div><div class="script-line">"Your website is either making you money or it's losing you money. There's no in between."<br><br>"And if you built it yourself on a template three years ago —"<br><br>"it's losing."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · WEBSITE SHOWCASE</div><div class="script-line">"This service business launched their new site and went from [X] online enquiries a month to [X]."<br><br>"This e-commerce store saw a [X] percent lift in conversions in the first thirty days."<br><br>"And this tradie went from no website at all to fully booked within six weeks of going live."<br><br>"Different businesses. Same result — a website that actually earns its keep."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · THE PROCESS</div><div class="script-line">"Simple."<br><br>"ONE — tell us about your business and what you need the site to do."<br>"TWO — we design and build it. Mobile-first, fast-loading, optimised to convert. Not just look good."<br>"THREE — it's yours. One payment. No monthly hosting fees. No lock-in contracts. A website that works for your business, not against it."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · TRUST + CTA</div><div class="script-line">"If your current website isn't generating leads or sales —"<br><br>"every single day it sits there, it's costing you."<br><br>"We build sites that convert. Starting from fourteen ninety-five. One time. Done."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Custom Website Build <span style="color:var(--orange)">From $1,495</span></div><div style="font-size:11px;color:#999">Custom Design · Mobile-First · SEO · One-Time Payment</div><div style="font-size:11px;color:var(--orange)">Start Your Build →</div></div></div>
   </div>
 
   <div id="web-edit" class="subpanel">
@@ -1390,12 +1591,12 @@
   </div>
 
   <div id="ghl-actor" class="subpanel">
-    <div class="section-label">Actor Script</div><div class="section-title">What You Say — GHL Developer</div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · HOOK</div><div class="script-line">"So you bought GoHighLevel. [beat] Great. Now who's going to build the automations, the funnels, the workflows? [beat] Because doing it yourself is taking FOREVER. And hiring a developer? Most charge fifty to a hundred dollars an hour. [beat] We charge nine ninety."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · PORTFOLIO VO</div><div class="script-line">"This is a full lead nurture sequence — twelve emails, five SMS triggers, automated follow-ups. This sales pipeline tracks every deal from first touch to close. Here's a booking funnel that fills a calendar with thirty qualified calls a week. [beat] All built in GoHighLevel. All by our devs."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · PROCESS</div><div class="script-line">"Here's how simple it is. [beat]<br><br>ONE — tell us what you need built inside GHL. [beat]<br>TWO — our dedicated developer builds it. Automations, funnels, workflows, CRM setup — whatever you need. [beat]<br>THREE — you get a fully working system, tested and ready to go. [beat]<br><br>No learning curve. No YouTube tutorials. Just a pro building exactly what you need."</div></div>
-    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · CTA</div><div class="script-line">"If you're running GoHighLevel and you're STILL trying to figure it all out yourself — [beat] stop. Get a dedicated dev for nine dollars and ninety cents an hour. [beat] That's less than a cup of coffee. [beat] And the ROI? Infinite."</div></div>
-    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Dedicated GHL Developer <span style="color:var(--orange)">$9.90/hr</span></div><div style="font-size:11px;color:#999">Automations · Funnels · Workflows · CRM · Pipeline</div></div></div>
+    <div class="section-label">Actor Script</div><div class="section-title">What You Say — GHL Developer</div><div class="section-desc">~186 words (target: ~200 at 130 wpm for 90s).</div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 2 · THE CHALLENGE</div><div class="script-line">"Nine dollars and ninety cents an hour. That's what a dedicated GoHighLevel developer costs."<br><br>"Not fifty. Not a hundred. Nine ninety. Less than two coffees."<br><br>"And they'll build everything you've been putting off."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 3 · WORKFLOW SHOWCASE</div><div class="script-line">"This is a full lead nurture sequence — [X] emails, [X] SMS triggers, automated follow-ups that run while you sleep."<br><br>"This sales pipeline tracks every deal from first touch to close."<br><br>"And this booking funnel fills a calendar with [X] qualified calls a week — hands-free."<br><br>"All built in GoHighLevel. All by our devs."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 4 · THE PROCESS</div><div class="script-line">"Here's how simple it is."<br><br>"ONE — tell us what you need built inside GHL."<br>"TWO — our developer builds it. Automations, funnels, workflows, CRM setup — whatever you need."<br>"THREE — you get a fully working setup, tested and ready to go. No learning curve. No YouTube rabbit holes. Just a pro building exactly what your business needs."</div></div>
+    <div class="card card-accent" style="margin-bottom:8px"><div class="card-title" style="font-size:11px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:500">SCENE 5 · TRUST + CTA</div><div class="script-line">"If you're running GoHighLevel and you're still trying to figure it all out yourself —"<br><br>"stop. Get a dedicated dev for nine ninety an hour."<br><br>"That's less than what you'd spend on lunch. And the time you'll get back? Priceless."</div></div>
+    <div class="card" style="background:var(--orange-dim);border-color:var(--orange)"><div class="card-title" style="font-size:11px;color:var(--orange);font-family:'Inter',sans-serif;font-weight:600">SCENE 6 · PRICE (ON-SCREEN)</div><div style="margin-top:6px"><div style="font-family:'Inter',sans-serif;font-size:13px;color:#fff">&#9654; Dedicated GHL Developer <span style="color:var(--orange)">$9.90/hr</span></div><div style="font-size:11px;color:#999">Automations · Funnels · Workflows · CRM · Pipeline</div><div style="font-size:11px;color:var(--orange)">Get Your Dev →</div></div></div>
   </div>
 
   <div id="ghl-edit" class="subpanel">
